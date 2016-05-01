@@ -1,5 +1,13 @@
 package dados;
 
+
+/**Classe para testas objetos e metodos.
+
+ * @author Daniel Nascimento
+
+ */
+
+
 public class testeDados {
 
 	public static void main(String[] args) {

@@ -1,5 +1,11 @@
 package dados;
 
+/**Classe para objetos do tipo ItemVenda, onde serão contidos, valores e métodos para o mesmo.
+
+ * @author Daniel Nascimento
+
+ */
+
 public class ItemVenda {
 	
 	private Produto produto;

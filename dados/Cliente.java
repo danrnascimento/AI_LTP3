@@ -1,5 +1,12 @@
 package dados;
 
+/**Classe para objetos do tipo Cliente, onde serão contidos, valores e métodos para o mesmo.
+
+ * @author Daniel Nascimento
+
+
+ */
+
 import java.util.GregorianCalendar;
 
 public class Cliente {

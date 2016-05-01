@@ -1,5 +1,11 @@
 package dados;
 
+/**Classe para objetos do tipo Produto, onde serão contidos, valores e métodos para o mesmo.
+
+ * @author Daniel Nascimento
+
+ */
+
 import java.util.GregorianCalendar;
 
 public class Produto {
@@ -10,10 +16,18 @@ public class Produto {
 	private GregorianCalendar dataInclusao;
 	private GregorianCalendar dataUltAlteracao;
 	
-	//AUTO INCREMENTAR CODIGO
+	/**Atributo para autoincrementar o codigo do produto */	
 	private static int ultimoCod = 0;
 	
-	//CONSTRUTOR
+	/**Metodo construtor do Objeto Produto
+	
+	*	@author Daniel Nascimento
+	
+	*	@param nome String - nome do produto
+	*	@param precoUnitario double - preco do produto
+	
+	*/
+	
 	public Produto(String nome, double precoUnitario){
 		ultimoCod++;
 		this.codigo = ultimoCod;
@@ -21,7 +35,7 @@ public class Produto {
 		this.precoUnitario = precoUnitario;
 	}
 	
-	//GETTERS AND SETTERS
+	
 	public int getCodigo() {
 		return codigo;
 	}
@@ -69,7 +83,15 @@ public class Produto {
 	public static void setUltimoCod(int ultimoCod) {
 		Produto.ultimoCod = ultimoCod;
 	}
-
+	
+	
+	/**Metodo para passar dados para String
+	 
+	 * @author Daniel Nascimento
+	 
+	 * @return String - Todos os atributos passados para String 
+	 
+	*/
 	@Override
 	public String toString() {
 		return "codigo = " + codigo + 
