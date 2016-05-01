@@ -71,8 +71,12 @@ public class Cliente {
 	
 	@Override
 	public String toString() {
-		return "Cliente [cpf=" + cpf + ", nome=" + nome + ", telefone=" + telefone + ", email=" + email
-				+ ", dataInclusao=" + dataInclusao + ", dataUltAlteracao=" + dataUltAlteracao + "]";
+		return "cpf = " + cpf + 
+				"\nnome = " + nome + 
+				"\ntelefone = " + telefone + 
+				"\nemail = " + email + 
+				"\ndataInclusao = " + dataInclusao + 
+				"\ndataUltAlteracao = " + dataUltAlteracao;
 	}
 	
 }

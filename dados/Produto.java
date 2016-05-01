@@ -72,8 +72,11 @@ public class Produto {
 
 	@Override
 	public String toString() {
-		return "Produto [codigo=" + codigo + ", nome=" + nome + ", precoUnitario=" + precoUnitario + ", dataInclusao="
-				+ dataInclusao + ", dataUltAlteracao=" + dataUltAlteracao + "]";
+		return "codigo = " + codigo + 
+				"\nnome = " + nome + 
+				"\nprecoUnitario = " + precoUnitario + 
+				"\ndataInclusao = " + dataInclusao + 
+				"\ndataUltAlteracao = " + dataUltAlteracao;
 	}
 
 }
