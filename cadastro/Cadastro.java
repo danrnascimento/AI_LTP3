@@ -237,7 +237,8 @@ public class Cadastro {
 	 * @param dataInicio GregorianCalendar - data de inicio do periodo
 	 * @param dataFinal GregorianCalendar - data final do periodo
 	 * @return Lista desse periodo
-	 * @throws SisVendaException*/
+	 * @throws SisVendaException
+	 */
 	
 	public static ArrayList<Venda> procurarVendaPeriodo(GregorianCalendar dataInicio,GregorianCalendar dataFinal) throws SisVendasException{
 		
