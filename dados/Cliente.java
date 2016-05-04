@@ -17,9 +17,14 @@ public class Cliente {
 	private GregorianCalendar dataInclusao;
 	private GregorianCalendar dataUltAlteracao;
 	
+	private int dia = new GregorianCalendar().get(GregorianCalendar.DAY_OF_MONTH);
+	private int mes = new GregorianCalendar().get(GregorianCalendar.MONTH);
+	private int ano = new GregorianCalendar().get(GregorianCalendar.YEAR);
+	
 	//CONSTRUTOR
 	
 	public Cliente(String cpf, String nome){
+		this.dataInclusao = new GregorianCalendar(ano,mes,dia);
 		this.cpf = cpf;
 		this.setNome(nome);
 	}
@@ -82,7 +87,7 @@ public class Cliente {
 				"\nnome = " + nome + 
 				"\ntelefone = " + telefone + 
 				"\nemail = " + email + 
-				"\ndataInclusao = " + dataInclusao + 
+				"\ndataInclusao = " + dataInclusao+ 
 				"\ndataUltAlteracao = " + dataUltAlteracao;
 	}
 	

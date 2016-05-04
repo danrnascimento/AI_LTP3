@@ -1,5 +1,7 @@
 package dados;
 
+import cadastro.Cadastro;
+
 
 /**Classe para testas objetos e metodos.
 
@@ -17,15 +19,13 @@ public class testeDados {
 		System.out.println(cliente.toString());
 		
 		System.out.println("\n\n");
-		
+		Cadastro.incluirCliente(cliente);
 		Produto produto = new Produto("Pao", 2.00);
 		Produto produto2 = new Produto("Pao2", 10.00);
 		System.out.println(produto.toString());
 		System.out.println("\n");
 		System.out.println(produto2.toString());
-		
 		System.out.println("\n\n");
 		
 	}
-
 }
