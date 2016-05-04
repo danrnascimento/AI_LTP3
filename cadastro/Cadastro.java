@@ -15,7 +15,7 @@ public class Cadastro {
 	
 	public static Map<String, dados.Cliente> clientes = new HashMap<String, dados.Cliente>();
 	public static Map<Integer, dados.Produto> produtos = new HashMap<Integer, dados.Produto>();
-	public static Map<String, String> vendas = new HashMap<String, String>();
+	public static Map<Integer, dados.Venda> vendas = new HashMap<Integer, dados.Venda>();
 
 	/**
 	 * incluir cliente na lista
@@ -158,6 +158,132 @@ public class Cadastro {
 			
 			return listaAux;
 		}
+		
+	}
+	
+	/**
+	 * incluir venda na lista de vendas
+	 * @author Daniel Nascimento
+	 * @param venda Venda - venda a ser includia
+	 */
+	public static void incluirVenda(Venda venda){
+		vendas.put(venda.getNumVenda(), venda);
+	}
+	
+	
+	/**
+	 * remover venda da lista de vendas
+	 * @author Daniel Nascimento
+	 * @param venda Venda - venda a ser excluida
+	 */
+	
+	public static void removerVenda(Venda venda){
+		vendas.remove(venda.getNumVenda());
+	}
+	
+	/**
+	 * procurar venda na lista de vendas pelo codigo 
+	 * @author Daniel Nascimento
+	 * @param codigo int - codigo a ser procurado
+	 * @return Venda - venda com o codigo procurado
+	 * @throws SisVendaException
+	 */
+	
+	public static Venda procurarVenda(int codigo) throws SisVendasException{
+		if (vendas.containsKey(codigo)){
+			return vendas.get(codigo);
+		}else{
+			throw new SisVendasException("Não encontrado!");
+		}
+	}
+	
+	/**
+	 * procurar venda por cliente
+	 * @author Daniel Nascimento
+	 * @param cliente Cliente - cliente a ser procurado
+	 * @return Lista ordenada das vendas que o cliente fez
+	 * @throws SisVendasException
+	 */
+	
+	public static ArrayList<Venda> procurarVendaCliente(Cliente cliente) throws SisVendasException{
+		
+		ArrayList<Venda> ListaAux = new ArrayList<Venda>();
+		
+		for(Venda auxiliar : vendas.values()){
+			if(auxiliar.getCliente() == cliente){
+				ListaAux.add(auxiliar);
+			}
+		}
+		
+		if(ListaAux.isEmpty()){
+			throw new SisVendasException("Não encontrado");
+		}else{
+			Collections.sort(ListaAux, new Comparator<Venda>() {
+				
+				@Override
+				public int compare(Venda auxiliar1, Venda auxiliar2) {
+					// TODO Auto-generated method stub
+					return auxiliar1.getCliente() == auxiliar2.getCliente() ? 1 : 0;
+				}
+				
+			});
+			
+			return ListaAux;
+		}
+		
+	}
+	
+	/**
+	 * criar lista organizando por periodo ( pelo menos foi essa a intencao ) noobOn
+	 * @author Daniel Nasciment
+	 * @param dataInicio GregorianCalendar - data de inicio do periodo
+	 * @param dataFinal GregorianCalendar - data final do periodo
+	 * @return Lista desse periodo
+	 * @throws SisVendaException*/
+	
+	public static ArrayList<Venda> procurarVendaPeriodo(GregorianCalendar dataInicio,GregorianCalendar dataFinal) throws SisVendasException{
+		
+		ArrayList<Venda> listAux = new ArrayList<Venda>();
+		
+		for(Venda auxliar : vendas.values()){
+			if(auxliar.getDataVenda().get(GregorianCalendar.YEAR) >= dataInicio.get(GregorianCalendar.YEAR) &&
+					auxliar.getDataVenda().get(GregorianCalendar.YEAR) <= dataFinal.get(GregorianCalendar.YEAR))
+			{
+				if(auxliar.getDataVenda().get(GregorianCalendar.MONTH) >= dataInicio.get(GregorianCalendar.MONTH) &&
+						auxliar.getDataVenda().get(GregorianCalendar.MONTH) <= dataFinal.get(GregorianCalendar.MONTH))
+				{
+					if(auxliar.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH) >= dataInicio.get(GregorianCalendar.DAY_OF_MONTH) &&
+							auxliar.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH) <= dataFinal.get(GregorianCalendar.DAY_OF_MONTH))
+					{
+						listAux.add(auxliar);
+					}
+				}
+			}
+		}
+		
+		if(listAux.isEmpty()){
+			throw new SisVendasException("Não encontrado");
+		}else{
+			Collections.sort(listAux, new Comparator<Venda>() {
+
+				@Override
+				public int compare(Venda aux1, Venda aux2) {
+					// dia - ascendente ; nome - ascendente
+					if (aux1.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH) < 
+					    aux2.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH)) {
+						return 1;	
+					} 
+					if (aux1.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH) > 
+				        aux2.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH)) {
+					    return -1;
+					}
+					return aux1.getDataVenda().compareTo(aux2.getDataVenda());
+				}
+			});
+			
+			return listAux;
+		}
+		
 		
 	}
 	

@@ -58,7 +58,5 @@ public class Venda {
 	public static void setUltimaVenda(int ultimaVenda) {
 		Venda.ultimaVenda = ultimaVenda;
 	}
-	
-	
 
 }
