@@ -8,7 +8,6 @@ package cadastro;
 
 import dados.*;
 import erros.SisVendasException;
-
 import java.util.*;
 
 public class Cadastro {
@@ -150,7 +149,6 @@ public class Cadastro {
 				
 				@Override
 				public int compare(Produto auxiliar1, Produto auxiliar2) {
-					// TODO Auto-generated method stub
 					return auxiliar1.getNome().compareTo(auxiliar2.getNome());
 				}
 				
@@ -268,7 +266,6 @@ public class Cadastro {
 
 				@Override
 				public int compare(Venda aux1, Venda aux2) {
-					// dia - ascendente ; nome - ascendente
 					if (aux1.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH) < 
 					    aux2.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH)) {
 						return 1;	

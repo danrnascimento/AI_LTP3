@@ -64,16 +64,8 @@ public class Produto {
 		return dataInclusao;
 	}
 
-	public void setDataInclusao(GregorianCalendar dataInclusao) {
-		this.dataInclusao = dataInclusao;
-	}
-
 	public GregorianCalendar getDataUltAlteracao() {
 		return dataUltAlteracao;
-	}
-
-	public void setDataUltAlteracao(GregorianCalendar dataUltAlteracao) {
-		this.dataUltAlteracao = dataUltAlteracao;
 	}
 
 	public static int getUltimoCod() {

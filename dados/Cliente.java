@@ -66,17 +66,13 @@ public class Cliente {
 		return dataInclusao;
 	}
 
-	public void setDataInclusao(GregorianCalendar dataInclusao) {
-		this.dataInclusao = dataInclusao;
-	}
-
 	public GregorianCalendar getDataUltAlteracao() {
 		return dataUltAlteracao;
 	}
 
-	public void setDataUltAlteracao(GregorianCalendar dataUltAlteracao) {
+	/*public void setDataUltAlteracao(GregorianCalendar dataUltAlteracao) {
 		this.dataUltAlteracao = dataUltAlteracao;
-	}
+	}*/
 
 
 	//METODOS:

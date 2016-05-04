@@ -39,10 +39,6 @@ public class Venda {
 		return dataVenda;
 	}
 
-	public void setDataVenda(GregorianCalendar dataVenda) {
-		this.dataVenda = dataVenda;
-	}
-
 	public ArrayList<ItemVenda> getVendaItem() {
 		return vendaItem;
 	}
