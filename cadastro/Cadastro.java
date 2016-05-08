@@ -8,6 +8,7 @@ package cadastro;
 
 import dados.*;
 import erros.SisVendasException;
+
 import java.util.*;
 
 public class Cadastro {
@@ -198,15 +199,16 @@ public class Cadastro {
 	/**
 	 * procurar venda por cliente
 	 * @author Daniel Nascimento
+	 * @param <T>
 	 * @param cliente Cliente - cliente a ser procurado
 	 * @return Lista ordenada das vendas que o cliente fez
 	 * @throws SisVendasException
 	 */
 	
-	public static ArrayList<Venda> procurarVendaCliente(Cliente cliente) throws SisVendasException{
+	public static <T> ArrayList<Venda> procurarVendaCliente(Cliente cliente) throws SisVendasException{
 		
-		ArrayList<Venda> ListaAux = new ArrayList<Venda>();
-		
+		ArrayList<Venda> ListaAux = new ArrayList<Venda>(); 
+ 		
 		for(Venda auxiliar : vendas.values()){
 			if(auxiliar.getCliente() == cliente){
 				ListaAux.add(auxiliar);
@@ -219,9 +221,16 @@ public class Cadastro {
 			Collections.sort(ListaAux, new Comparator<Venda>() {
 				
 				@Override
-				public int compare(Venda auxiliar1, Venda auxiliar2) {
-					// TODO Auto-generated method stub
-					return auxiliar1.getCliente() == auxiliar2.getCliente() ? 1 : 0;
+				public int compare(Venda aux1, Venda aux2) {
+					if (aux1.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH) < 
+					    aux2.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH)) {
+						return 1;	
+					} 
+					if (aux1.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH) > 
+				        aux2.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH)) {
+					    return -1;
+					}
+					return aux1.getDataVenda().compareTo(aux2.getDataVenda());
 				}
 				
 			});
@@ -244,19 +253,9 @@ public class Cadastro {
 		
 		ArrayList<Venda> listAux = new ArrayList<Venda>();
 		
-		for(Venda auxliar : vendas.values()){
-			if(auxliar.getDataVenda().get(GregorianCalendar.YEAR) >= dataInicio.get(GregorianCalendar.YEAR) &&
-					auxliar.getDataVenda().get(GregorianCalendar.YEAR) <= dataFinal.get(GregorianCalendar.YEAR))
-			{
-				if(auxliar.getDataVenda().get(GregorianCalendar.MONTH) >= dataInicio.get(GregorianCalendar.MONTH) &&
-						auxliar.getDataVenda().get(GregorianCalendar.MONTH) <= dataFinal.get(GregorianCalendar.MONTH))
-				{
-					if(auxliar.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH) >= dataInicio.get(GregorianCalendar.DAY_OF_MONTH) &&
-							auxliar.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH) <= dataFinal.get(GregorianCalendar.DAY_OF_MONTH))
-					{
-						listAux.add(auxliar);
-					}
-				}
+		for(Venda auxiliar : vendas.values()){
+			if((auxiliar.getDataVenda().compareTo(dataInicio)) > 0 && (auxiliar.getDataVenda().compareTo(dataFinal) < 0)){
+				listAux.add(auxiliar);
 			}
 		}
 		
