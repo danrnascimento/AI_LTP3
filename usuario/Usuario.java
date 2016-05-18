@@ -67,6 +67,12 @@ public class Usuario {
 		
 	}
 	
+	/**
+	 * Metodo para alterar dados do Cliente, procura por cpf
+	 * @author Daniel Nascimento
+	 * @param cpf
+	 * @throws SisVendasException
+	 */
 	public static void alterarCliente(String cpf) throws SisVendasException{
 		
 		String nome;
