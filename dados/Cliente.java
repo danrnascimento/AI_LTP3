@@ -23,10 +23,12 @@ public class Cliente {
 	
 	//CONSTRUTOR
 	
-	public Cliente(String cpf, String nome){
+	public Cliente(String cpf, String nome, String email, String telefone){
 		this.dataInclusao = new GregorianCalendar(ano,mes,dia);
 		this.cpf = cpf;
-		this.setNome(nome);
+		this.nome = nome;
+		this.email = email;
+		this.telefone = telefone;
 	}
 	
 	//GETTER AND SETTERS

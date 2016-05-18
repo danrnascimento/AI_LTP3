@@ -29,19 +29,17 @@ public class Produto {
 	*/
 	
 	public Produto(String nome, double precoUnitario){
-		ultimoCod++;
-		this.codigo = ultimoCod;
+		this.codigo = ++ultimoCod;
 		this.nome = nome;
 		this.precoUnitario = precoUnitario;
 	}
 	
-	
-	public int getCodigo() {
-		return codigo;
+	public static int getCodigo() {
+		return ultimoCod;
 	}
 
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
+	public static void setCodigo(int codigo) {
+		Produto.ultimoCod = codigo;
 	}
 
 	public String getNome() {

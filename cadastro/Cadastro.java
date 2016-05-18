@@ -222,15 +222,13 @@ public class Cadastro {
 				
 				@Override
 				public int compare(Venda aux1, Venda aux2) {
-					if (aux1.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH) < 
-					    aux2.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH)) {
-						return 1;	
-					} 
-					if (aux1.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH) > 
-				        aux2.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH)) {
-					    return -1;
+					int compararNomes = aux1.getCliente().getNome().compareTo(aux2.getCliente().getNome());
+					
+					if(compararNomes == 0){
+						return aux2.getDataVenda().compareTo(aux1.getDataVenda());
 					}
-					return aux1.getDataVenda().compareTo(aux2.getDataVenda());
+					
+					return compararNomes;
 				}
 				
 			});
@@ -254,7 +252,7 @@ public class Cadastro {
 		ArrayList<Venda> listAux = new ArrayList<Venda>();
 		
 		for(Venda auxiliar : vendas.values()){
-			if((auxiliar.getDataVenda().compareTo(dataInicio)) > 0 && (auxiliar.getDataVenda().compareTo(dataFinal) < 0)){
+			if((auxiliar.getDataVenda().compareTo(dataInicio)) >= 0 && (auxiliar.getDataVenda().compareTo(dataFinal) <= 0)){
 				listAux.add(auxiliar);
 			}
 		}
@@ -266,15 +264,13 @@ public class Cadastro {
 
 				@Override
 				public int compare(Venda aux1, Venda aux2) {
-					if (aux1.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH) < 
-					    aux2.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH)) {
-						return 1;	
-					} 
-					if (aux1.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH) > 
-				        aux2.getDataVenda().get(GregorianCalendar.DAY_OF_MONTH)) {
-					    return -1;
+					int compararNomes = aux1.getCliente().getNome().compareTo(aux2.getCliente().getNome());
+					
+					if(compararNomes == 0){
+						return aux2.getDataVenda().compareTo(aux1.getDataVenda());
 					}
-					return aux1.getDataVenda().compareTo(aux2.getDataVenda());
+					
+					return compararNomes;
 				}
 			});
 			
