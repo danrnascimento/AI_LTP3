@@ -1,8 +1,5 @@
 package usuario;
 
-import java.util.*;
-import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
-import java.io.*;
 
 import cadastro.Cadastro;
 import dados.Cliente;
@@ -18,14 +15,14 @@ public class Usuario {
 		
 	} 
 	
+	//-------------------------------- CLIENTES ----------------------------------------
+	
 	/** 
 	 * Metodo para incluir novo cliente
-	 * @author Daniel Nascimento
 	 * @throws SisVendasException
 	 */
 	public static void incluirCliente() throws SisVendasException{
-		
-		boolean valido;
+
 		String cpf;
 		String nome;
 		String telefone;
@@ -69,7 +66,6 @@ public class Usuario {
 	
 	/**
 	 * Metodo para alterar dados do Cliente, procura por cpf
-	 * @author Daniel Nascimento
 	 * @param cpf
 	 * @throws SisVendasException
 	 */
@@ -90,12 +86,7 @@ public class Usuario {
 			System.out.println("Deseja Alterar ? (Sim/nao)");
 			String resp = Console.readLine();
 			
-			if (resp.equalsIgnoreCase("nao")){
-				
-				System.out.println("Obrigado");
-				System.exit(0);
-				
-			}else{
+			if (resp.equalsIgnoreCase("sim")){
 				
 				do{
 					System.out.println("Digite o nome do Cliente: ");
@@ -118,9 +109,71 @@ public class Usuario {
 				
 				cliente.setEmail(email);
 				
+			}else{
+				
+				System.out.println("Obrigado");
+				System.exit(0);
+			
 			}
 			
 		}
 		
 	}
+
+	/**
+	 * Metodo para excluir cliente a partir do cpf
+	 * @param cpf
+	 * @throws SisVendasException
+	 */
+	
+	public static void excluirCliente(String cpf) throws SisVendasException{
+		
+		Cliente clienteAuxiliar = Cadastro.procurarClienteCpf(cpf);
+		
+		if ( clienteAuxiliar == null || Cadastro.procurarVendaCliente(clienteAuxiliar) != null){
+			System.out.println("Cliente não encontrado ou Possui venda cadastrada");
+		}else{
+			
+			clienteAuxiliar.toString();
+			
+			System.out.println("Deseja Excluir ? (Sim/nao)");
+			String resp = Console.readLine();
+			
+			if (resp.equalsIgnoreCase("sim")){
+				
+				Cadastro.removerCliente(clienteAuxiliar);
+				
+			}else{
+				
+				System.out.println("Obrigado");
+				System.exit(0);
+			}
+			
+			
+		}
+	}
+	
+	/**
+	 * Metodo para consultar cliente via CPF
+	 * @param cpf
+	 * @throws SisVendasException
+	 */
+	public static void consultarClienteCpf(String cpf) throws SisVendasException{
+		
+		try {
+			
+			Cadastro.procurarClienteCpf(cpf).toString();
+		
+		} catch (SisVendasException e) {
+			
+			System.out.println(e.getMessage());
+		
+		}
+	}
+	
+	
+	//-----------------------------FIM CLIENTES ----------------------------------------
+	
+	//-------------------------------- PRODUTO -----------------------------------------
+	
 }
