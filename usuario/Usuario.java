@@ -16,8 +16,13 @@ public class Usuario {
 	
 		
 		
-	}
+	} 
 	
+	/** 
+	 * Metodo para incluir novo cliente
+	 * @author Daniel Nascimento
+	 * @throws SisVendasException
+	 */
 	public static void incluirCliente() throws SisVendasException{
 		
 		boolean valido;
@@ -62,4 +67,54 @@ public class Usuario {
 		
 	}
 	
+	public static void alterarCliente(String cpf) throws SisVendasException{
+		
+		String nome;
+		String email;
+		String telefone;
+		
+		if(Cadastro.procurarClienteCpf(cpf) == null){
+			System.out.println("Cliente nao encontrado!");
+		}else{
+			
+			Cliente cliente = Cadastro.procurarClienteCpf(cpf);
+
+			cliente.toString();
+			
+			System.out.println("Deseja Alterar ? (Sim/nao)");
+			String resp = Console.readLine();
+			
+			if (resp.equalsIgnoreCase("nao")){
+				
+				System.out.println("Obrigado");
+				System.exit(0);
+				
+			}else{
+				
+				do{
+					System.out.println("Digite o nome do Cliente: ");
+					nome = Console.readLine();
+				}while((LtpUtil.contarPalavras(nome) < 2));
+				
+				cliente.setNome(nome);
+				
+				do{
+					System.out.println("Digite o telefone do Cliente: ");
+					telefone = Console.readLine();
+				}while(telefone == null);
+				
+				cliente.setTelefone(telefone);
+				
+				do{
+					System.out.println("Digite o email do cliente: ");
+					email = Console.readLine();
+				}while(!LtpUtil.validarEmail(email));
+				
+				cliente.setEmail(email);
+				
+			}
+			
+		}
+		
+	}
 }
