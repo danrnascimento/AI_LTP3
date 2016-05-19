@@ -204,4 +204,15 @@ public class Usuario {
 			
 	}
 	
+	public static void alterarProduto(int codigo) throws SisVendasException{
+		
+		try {
+			System.out.println("Digite o cofigo do produto: ");
+			Produto produto = Cadastro.procurarProdutoCod(codigo);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
 }
