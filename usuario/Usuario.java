@@ -3,6 +3,7 @@ package usuario;
 
 import cadastro.Cadastro;
 import dados.Cliente;
+import dados.Produto;
 import erros.SisVendasException;
 import utilitarios.LtpUtil;
 import utilitarios.Console;
@@ -175,5 +176,32 @@ public class Usuario {
 	//-----------------------------FIM CLIENTES ----------------------------------------
 	
 	//-------------------------------- PRODUTO -----------------------------------------
+	
+	/**
+	 * Metodo para incluir novo produto
+	 * @throws SisVendasException
+	 */
+	public static void incluirProduto() throws SisVendasException{
+		
+		String nome = null;
+		double precoUnitario;
+		
+		//entrar com o CPF e verificar se está correto
+			
+		do{
+			System.out.println("Digite o nome do Cliente: ");
+			nome = Console.readLine();
+		}while((nome != null));
+			
+		do{
+			System.out.println("Digite o Preco do Cliente: ");
+			precoUnitario = Console.readDouble(null);
+		}while(precoUnitario <= 0);
+			
+			
+		Produto produto = new Produto(nome, precoUnitario);
+		Cadastro.incluirProduto(produto);
+			
+	}
 	
 }
