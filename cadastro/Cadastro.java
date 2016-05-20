@@ -73,7 +73,7 @@ public class Cadastro {
 				
 				@Override
 				public int compare(Cliente auxiliar1, Cliente auxiliar2) {
-					// TODO Auto-generated method stub
+					
 					return auxiliar1.getNome().compareTo(auxiliar2.getNome());
 				}
 				

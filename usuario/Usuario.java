@@ -1,6 +1,8 @@
 package usuario;
 
 
+import java.util.ArrayList;
+
 import cadastro.Cadastro;
 import dados.Cliente;
 import dados.Produto;
@@ -22,7 +24,7 @@ public class Usuario {
 	 * Metodo para incluir novo cliente
 	 * @throws SisVendasException
 	 */
-	public static void incluirCliente() throws SisVendasException{
+	public static void incluirCliente(){
 
 		String cpf;
 		String nome;
@@ -30,38 +32,40 @@ public class Usuario {
 		String email;
 		
 		//entrar com o CPF e verificar se está correto
-		do{
-			System.out.println("Digite o seu CPF: ");
-			cpf = Console.readLine();	
-		}while(!LtpUtil.validarCPF(cpf));
 		
-		try {
+		do{
+			System.out.println("Insira o cpf do cliente: ");
+			cpf  = Console.readLine();
+				
+			if(LtpUtil.validarCPF(cpf) == false || cpf.isEmpty()){
+				System.out.println("CPF Inválido!");
+			}
+		}while(!LtpUtil.validarCPF(cpf) || cpf.isEmpty());
+		
+		do{
+			System.out.println("Digite o nome do Cliente: ");
+			nome = Console.readLine();
+			if(LtpUtil.contarPalavras(nome) < 2 || nome.isEmpty()){
+				System.out.println("Nome Inválido!");
+			}
+		}while((LtpUtil.contarPalavras(nome) < 2) || nome.isEmpty());
+				
+		do{
+			System.out.println("Digite o telefone do Cliente: ");
+			telefone = Console.readLine();
+			if(telefone.isEmpty()){
+				System.out.println("Telefone Invalido");
+			}
+		}while(telefone.isEmpty());
+		
+		do{
+			System.out.println("Digite o email do cliente: ");
+			email = Console.readLine();
+		}while(!LtpUtil.validarEmail(email));
 			
-			Cadastro.procurarClienteCpf(cpf);
-			System.out.println("CPF CADASTRADO!");
-			
-		} catch (Exception e) {
-			
-			do{
-				System.out.println("Digite o nome do Cliente: ");
-				nome = Console.readLine();
-			}while((LtpUtil.contarPalavras(nome) < 2));
-			
-			do{
-				System.out.println("Digite o telefone do Cliente: ");
-				telefone = Console.readLine();
-			}while(telefone == null);
-			
-			do{
-				System.out.println("Digite o email do cliente: ");
-				email = Console.readLine();
-			}while(!LtpUtil.validarEmail(email));
-			
-			Cliente cliente= new Cliente(cpf, nome,email,telefone);
-			Cadastro.incluirCliente(cliente);
-			
-		}
-
+		
+		Cliente cliente= new Cliente(cpf, nome,email,telefone);
+		Cadastro.incluirCliente(cliente);
 		
 	}
 	
@@ -70,20 +74,27 @@ public class Usuario {
 	 * @param cpf
 	 * @throws SisVendasException
 	 */
-	public static void alterarCliente(String cpf) throws SisVendasException{
+	public static void alterarCliente(){
 		
 		String nome;
+		String cpf;
 		String email;
 		String telefone;
 		
-		if(Cadastro.procurarClienteCpf(cpf) == null){
-			System.out.println("Cliente nao encontrado!");
-		}else{
+		do{
+			System.out.println("Digite o cpf do Cliente: ");
+			cpf = Console.readLine();
+			if(cpf.isEmpty() || !(LtpUtil.validarCPF(cpf))){
+				System.out.println("CPF Inválido");
+			}
+		}while(cpf.isEmpty() || !(LtpUtil.validarCPF(cpf)));
+		
+		try {
 			
 			Cliente cliente = Cadastro.procurarClienteCpf(cpf);
-
-			cliente.toString();
 			
+			cliente.toString();
+						
 			System.out.println("Deseja Alterar ? (Sim/nao)");
 			String resp = Console.readLine();
 			
@@ -109,48 +120,48 @@ public class Usuario {
 				}while(!LtpUtil.validarEmail(email));
 				
 				cliente.setEmail(email);
-				
-			}else{
-				
-				System.out.println("Obrigado");
-				System.exit(0);
-			
 			}
 			
+		}catch (SisVendasException e) {
+			System.out.println(e.getMessage());
 		}
-		
+			
 	}
-
+		
 	/**
 	 * Metodo para excluir cliente a partir do cpf
 	 * @param cpf
 	 * @throws SisVendasException
 	 */
-	
-	public static void excluirCliente(String cpf) throws SisVendasException{
+	public static void excluirCliente(){
 		
-		Cliente clienteAuxiliar = Cadastro.procurarClienteCpf(cpf);
+		String cpf;
 		
-		if ( clienteAuxiliar == null || Cadastro.procurarVendaCliente(clienteAuxiliar) != null){
-			System.out.println("Cliente não encontrado ou Possui venda cadastrada");
-		}else{
+		do{
+			System.out.println("Digite o CPF do Cliente");
+			cpf = Console.readLine();
+			if(cpf.isEmpty() || !(LtpUtil.validarCPF(cpf))){
+				System.out.println("CPF Inválido");
+			}
+		}while(cpf.isEmpty() || !(LtpUtil.validarCPF(cpf)));
+		
+		try {
+			Cliente cliente = Cadastro.procurarClienteCpf(cpf);
 			
-			clienteAuxiliar.toString();
+			cliente.toString();
 			
 			System.out.println("Deseja Excluir ? (Sim/nao)");
 			String resp = Console.readLine();
 			
 			if (resp.equalsIgnoreCase("sim")){
-				
-				Cadastro.removerCliente(clienteAuxiliar);
-				
+				Cadastro.removerCliente(cliente);
 			}else{
-				
 				System.out.println("Obrigado");
 				System.exit(0);
 			}
 			
-			
+		} catch (SisVendasException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -159,7 +170,17 @@ public class Usuario {
 	 * @param cpf
 	 * @throws SisVendasException
 	 */
-	public static void consultarClienteCpf(String cpf) throws SisVendasException{
+	public static void consultarClienteCpf(){
+		
+		String cpf;
+		
+		do{
+			System.out.println("Digite o CPF do Cliente");
+			cpf = Console.readLine();
+			if(cpf.isEmpty() || !(LtpUtil.validarCPF(cpf))){
+				System.out.println("CPF Inválido");
+			}
+		}while(cpf.isEmpty() || !(LtpUtil.validarCPF(cpf)));
 		
 		try {
 			
@@ -172,18 +193,47 @@ public class Usuario {
 		}
 	}
 	
-	
-	//-----------------------------FIM CLIENTES ----------------------------------------
+	/**
+	 * Metodo para exibir por nome ou parte do Nome
+	 * @author Daniel Nascimento
+	 */
+	private static void  consultarClienteNome() {
+		
+		String nome;
+		
+		do{
+			System.out.println("Digite o Nome do Cliente ou Parte do Nome: ");
+			nome = Console.readLine();
+			if(nome.isEmpty()){
+				System.out.println("Nome Inválido");
+			}
+		}while(nome.isEmpty());
+		
+		try {
+			
+			ArrayList<Cliente> clientes = Cadastro.procurarClienteNome(nome);
+			
+			for(Cliente cliente : clientes){
+				System.out.println(cliente.toString());
+			}
+		
+		} catch (SisVendasException e) {
+			
+			System.out.println(e.getMessage());
+		
+		}
+				
+	}
 	
 	//-------------------------------- PRODUTO -----------------------------------------
-	
+	//
 	/**
 	 * Metodo para incluir novo produto
 	 * @throws SisVendasException
 	 */
-	public static void incluirProduto() throws SisVendasException{
+	public static void incluirProduto(){
 		
-		String nome = null;
+		String nome;
 		Double precoUnitario;
 		
 		//entrar com o CPF e verificar se está correto
@@ -191,16 +241,22 @@ public class Usuario {
 		do{
 			System.out.println("Digite o nome do Cliente: ");
 			nome = Console.readLine();
+			if(nome == null || nome.isEmpty()){
+				System.out.println("Nome inválido!");
+			}
 		}while(nome == null || nome.isEmpty());
 			
 		do{
-			System.out.println("Digite o novo preco do produto");
+			System.out.println("Digite o preco do produto");
 			precoUnitario = Console.readDouble(null);
+			if(precoUnitario <= 0 || precoUnitario == null){
+				System.out.println("Preco Inválido!");
+			}
 		}while(precoUnitario <= 0 || precoUnitario == null);
-			
-			
+		
 		Produto produto = new Produto(nome, precoUnitario);
 		Cadastro.incluirProduto(produto);
+
 			
 	}
 	
@@ -209,24 +265,26 @@ public class Usuario {
 	 * @param codigo
 	 * @throws SisVendasException
 	 */
-	public static void alterarProduto(int codigo) throws SisVendasException{
+	public static void alterarProduto(){
 		
 		String nome;
+		int codigo;
 		Double precoUnitario;
 		Produto produto;
 		String confirmar;
 		
-		try {
+		do {
 			
-			do {
-				
-				System.out.println("Digite o codigo do produto: ");
-				produto = Cadastro.procurarProdutoCod(codigo);
-				if (produto == null){
-					System.out.println("!! Produto não encontrado !!");
-				}
-				
-			}while(produto == null);
+			System.out.println("Digite o codigo do produto: ");
+			codigo = Console.readInt(null);
+			if (codigo < 0){
+				System.out.println("!! Produto não encontrado !!");
+			}
+			
+		}while(codigo < 0);
+		
+		try {
+			produto = Cadastro.procurarProdutoCod(codigo);
 			
 			produto.toString();
 			
@@ -242,6 +300,8 @@ public class Usuario {
 					}
 				}while(nome.isEmpty() || nome == null);
 				
+				produto.setNome(nome);
+				
 				do{
 					System.out.println("Digite o novo preco do produto");
 					precoUnitario = Console.readDouble(null);
@@ -249,6 +309,9 @@ public class Usuario {
 						System.out.println("Preco do produto é inválido ou nulo");
 					}
 				}while(precoUnitario <= 0 || precoUnitario == null);
+				
+				produto.setPrecoUnitario(precoUnitario);
+				
 			}else{
 				System.out.println("Obrigado!");
 				System.exit(0);
