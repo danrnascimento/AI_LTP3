@@ -3,6 +3,8 @@ package dados;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+import utilitarios.LtpUtil;
+
 public class Venda {
 	
 	private int numVenda;
@@ -14,17 +16,12 @@ public class Venda {
 	private static int  ultimaVenda = 0;
 	
 	public Venda(Cliente cliente){
-		ultimaVenda++;
-		this.numVenda = ultimaVenda;
+		this.numVenda = ++ultimaVenda;
 		this.cliente = cliente;
 	}
 
 	public int getNumVenda() {
 		return numVenda;
-	}
-
-	public void setNumVenda(int numVenda) {
-		this.numVenda = numVenda;
 	}
 
 	public Cliente getCliente() {
@@ -53,6 +50,14 @@ public class Venda {
 
 	public static void setUltimaVenda(int ultimaVenda) {
 		Venda.ultimaVenda = ultimaVenda;
+	}
+	
+	@Override
+	public String toString() {
+		return "\nnumVenda = " + numVenda + 
+				"\ncliente = " + cliente +
+				"\ndataVenda = " + LtpUtil.formatarData(dataVenda, "dd/MM/yyyy") +
+				"\nvendaItem = " + vendaItem;
 	}
 
 }

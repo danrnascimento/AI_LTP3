@@ -8,11 +8,13 @@ package dados;
 
 import java.util.GregorianCalendar;
 
+import utilitarios.LtpUtil;
+
 public class Produto {
 
 	private int codigo;
 	private String nome;
-	private double precoUnitario;
+	private Double precoUnitario;
 	private GregorianCalendar dataInclusao;
 	private GregorianCalendar dataUltAlteracao;
 	
@@ -32,16 +34,20 @@ public class Produto {
 		this.codigo = ++ultimoCod;
 		this.nome = nome;
 		this.precoUnitario = precoUnitario;
+		this.dataInclusao = dataInclusao;
+		this.dataUltAlteracao = dataUltAlteracao;
 	}
 	
-	public static int getCodigo() {
+	public int getCodigo() {
 		return ultimoCod;
 	}
-
-	public static void setCodigo(int codigo) {
+	
+	/*
+	public void setCodigo(int codigo) {
 		Produto.ultimoCod = codigo;
 	}
-
+ 	*/
+	
 	public String getNome() {
 		return nome;
 	}
@@ -66,10 +72,6 @@ public class Produto {
 		return dataUltAlteracao;
 	}
 
-	public static int getUltimoCod() {
-		return ultimoCod;
-	}
-
 	public static void setUltimoCod(int ultimoCod) {
 		Produto.ultimoCod = ultimoCod;
 	}
@@ -87,8 +89,8 @@ public class Produto {
 		return "codigo = " + codigo + 
 				"\nnome = " + nome + 
 				"\nprecoUnitario = " + precoUnitario + 
-				"\ndataInclusao = " + dataInclusao + 
-				"\ndataUltAlteracao = " + dataUltAlteracao;
+				"\ndataInclusao = " + LtpUtil.formatarData(dataInclusao, "dd/MM/yyyy") + 
+				"\ndataUltAlteracao = " + LtpUtil.formatarData(dataUltAlteracao, "dd/MM/yyyy");
 	}
 
 }

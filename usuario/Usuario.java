@@ -184,19 +184,19 @@ public class Usuario {
 	public static void incluirProduto() throws SisVendasException{
 		
 		String nome = null;
-		double precoUnitario;
+		Double precoUnitario;
 		
 		//entrar com o CPF e verificar se está correto
 			
 		do{
 			System.out.println("Digite o nome do Cliente: ");
 			nome = Console.readLine();
-		}while((nome != null));
+		}while(nome == null || nome.isEmpty());
 			
 		do{
-			System.out.println("Digite o Preco do Cliente: ");
+			System.out.println("Digite o novo preco do produto");
 			precoUnitario = Console.readDouble(null);
-		}while(precoUnitario <= 0);
+		}while(precoUnitario <= 0 || precoUnitario == null);
 			
 			
 		Produto produto = new Produto(nome, precoUnitario);
@@ -204,13 +204,60 @@ public class Usuario {
 			
 	}
 	
+	/**
+	 * Metodo para alterar produto
+	 * @param codigo
+	 * @throws SisVendasException
+	 */
 	public static void alterarProduto(int codigo) throws SisVendasException{
 		
+		String nome;
+		Double precoUnitario;
+		Produto produto;
+		String confirmar;
+		
 		try {
-			System.out.println("Digite o cofigo do produto: ");
-			Produto produto = Cadastro.procurarProdutoCod(codigo);
-		} catch (Exception e) {
-			// TODO: handle exception
+			
+			do {
+				
+				System.out.println("Digite o codigo do produto: ");
+				produto = Cadastro.procurarProdutoCod(codigo);
+				if (produto == null){
+					System.out.println("!! Produto não encontrado !!");
+				}
+				
+			}while(produto == null);
+			
+			produto.toString();
+			
+			System.out.println("\n\nDeseja alterar? (Sim/nao)");
+			confirmar = Console.readLine();
+			
+			if(confirmar.equalsIgnoreCase("sim")){
+				do {
+					System.out.println("Digite o novo nome do produto: ");
+					nome = Console.readLine();
+					if (nome.isEmpty() || nome == null){
+						System.out.println("Nome do produto inválido");
+					}
+				}while(nome.isEmpty() || nome == null);
+				
+				do{
+					System.out.println("Digite o novo preco do produto");
+					precoUnitario = Console.readDouble(null);
+					if (precoUnitario <= 0 || precoUnitario == null){
+						System.out.println("Preco do produto é inválido ou nulo");
+					}
+				}while(precoUnitario <= 0 || precoUnitario == null);
+			}else{
+				System.out.println("Obrigado!");
+				System.exit(0);
+			}
+			
+		} catch (SisVendasException e) {
+			
+			e.getMessage();
+			
 		}
 		
 	}

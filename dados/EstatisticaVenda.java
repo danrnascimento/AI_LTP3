@@ -9,8 +9,10 @@ public class EstatisticaVenda {
 	private int qtdVendas;
 	private Double totalVendas;
 	
-	public EstatisticaVenda(String nome){
+	public EstatisticaVenda(){
 		this.nome = nome;
+		this.qtdVendas = qtdVendas;
+		this.totalVendas = totalVendas;
 	}
 	
 	public String getNome(){
@@ -35,6 +37,13 @@ public class EstatisticaVenda {
 	
 	public void setTotalVendas(Double totalVendas){
 		this.totalVendas = totalVendas;
+	}
+	
+	@Override
+	public String toString() {
+		return	"\nnome = " + nome + 
+				"\nqtdVendas = " + qtdVendas +
+				"\nvalorTotal = " + totalVendas;
 	}
 	
 }

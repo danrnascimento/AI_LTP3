@@ -1,12 +1,15 @@
 package dados;
 
+import java.io.*;
+import utilitarios.LtpUtil;
+
 /**Classe para objetos do tipo ItemVenda, onde serão contidos, valores e métodos para o mesmo.
 
  * @author Daniel Nascimento
 
  */
 
-public class ItemVenda {
+public class ItemVenda{
 	
 	private Produto produto;
 	private double precoUnitario;
@@ -53,6 +56,13 @@ public class ItemVenda {
 		this.valorVenda = valorVenda;
 	}
 	
+	@Override
+	public String toString() {
+		return "\nproduto = " + produto + 
+				"\nprecoUnitario = " + precoUnitario +
+				"\nquantVendas = " + quantVenda +
+				"\nvalorVenda = " + valorVenda;
+	}
 	
 	
 }

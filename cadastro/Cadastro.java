@@ -8,7 +8,6 @@ package cadastro;
 
 import dados.*;
 import erros.SisVendasException;
-
 import java.util.*;
 
 public class Cadastro {
@@ -17,12 +16,13 @@ public class Cadastro {
 	public static Map<Integer, dados.Produto> produtos = new HashMap<Integer, dados.Produto>();
 	public static Map<Integer, dados.Venda> vendas = new HashMap<Integer, dados.Venda>();
 
+	
+	//-----------------------CLIENTES------------------------//
 	/**
 	 * incluir cliente na lista
 	 * @author Daniel Nascimento
 	 * @param cliente Cliente - Objeto a ser incluso
-	 */
-	
+	 */	
 	public static void incluirCliente(Cliente cliente){
 		clientes.put(cliente.getCpf(), cliente);
 	}
@@ -32,7 +32,6 @@ public class Cadastro {
 	 * @author Daniel Nascimento
 	 * @param cliente Cliente - objeto a ser incluso
 	 */
-
 	public static void removerCliente(Cliente cliente){
 		clientes.remove(cliente.getCpf());
 	}
@@ -43,15 +42,12 @@ public class Cadastro {
 	 * @param cpf String - Cpf a ser procurado 
 	 * @throws SisVendasException
 	 */
-	
 	public static Cliente procurarClienteCpf(String cpf) throws SisVendasException{
-		
 		if (clientes.containsKey(cpf)){
 			return clientes.get(cpf);
 		}else{
-			throw new SisVendasException("Não encontrado");
+			throw new SisVendasException("Não existe cliente para o CPF");
 		}
-		
 	}
 	
 	/**
@@ -60,7 +56,6 @@ public class Cadastro {
 	 * @param nome String - nome a ser procurado
 	 * @throws SisVendasExceptions 
 	 */
-	
 	public static ArrayList<Cliente> procurarClienteNome(String nome) throws SisVendasException{
 		
 		ArrayList<Cliente> listaAux = new ArrayList<Cliente>();
@@ -88,13 +83,14 @@ public class Cadastro {
 		}
 		
 	}
+
+	//-----------------------PRODUTOS------------------------//
 	
 	/**
 	 * incluir produto a lista de produtos
 	 * @author Daniel Nascimento
 	 * @param produto Produto - produto a ser incluido
 	 */
-	
 	public static void incluirProduto(Produto produto){
 		produtos.put(produto.getCodigo(), produto);
 	}
@@ -104,7 +100,6 @@ public class Cadastro {
 	 * @author Daniel Nascimeno
 	 * @param produto Produto - produto a ser removido
 	 */
-	
 	public static void removerProduto(Produto produto){
 		produtos.remove(produto.getCodigo());
 	}
@@ -115,15 +110,12 @@ public class Cadastro {
 	 * @param cod Int - codigo a ser pesquisado
 	 * @throws SisVendasException
 	 */
-	
 	public static Produto procurarProdutoCod(int cod) throws SisVendasException{
-		
 		if (produtos.containsKey(cod)){
 			return produtos.get(cod);
 		}else{
-			throw new SisVendasException("Não encontrado");
+			throw new SisVendasException("Não Existe produto para o Codigo");
 		}
-		
 	}
 	
 	/**
@@ -131,8 +123,7 @@ public class Cadastro {
 	 * @author Daniel Nascimento
 	 * @param nome String - nome do produto a ser procurado
 	 * @throws SisVendaException
-	 */
-	
+	 */	
 	public static ArrayList<Produto> procurarProdutoNome(String nome) throws SisVendasException{
 		
 		ArrayList<Produto> listaAux = new ArrayList<Produto>();
@@ -160,6 +151,8 @@ public class Cadastro {
 		
 	}
 	
+	//-----------------------VENDAS------------------------//
+	
 	/**
 	 * incluir venda na lista de vendas
 	 * @author Daniel Nascimento
@@ -168,14 +161,12 @@ public class Cadastro {
 	public static void incluirVenda(Venda venda){
 		vendas.put(venda.getNumVenda(), venda);
 	}
-	
-	
+		
 	/**
 	 * remover venda da lista de vendas
 	 * @author Daniel Nascimento
 	 * @param venda Venda - venda a ser excluida
 	 */
-	
 	public static void removerVenda(Venda venda){
 		vendas.remove(venda.getNumVenda());
 	}
@@ -187,12 +178,11 @@ public class Cadastro {
 	 * @return Venda - venda com o codigo procurado
 	 * @throws SisVendaException
 	 */
-	
 	public static Venda procurarVenda(int codigo) throws SisVendasException{
 		if (vendas.containsKey(codigo)){
 			return vendas.get(codigo);
 		}else{
-			throw new SisVendasException("Não encontrado!");
+			throw new SisVendasException("Não Existe Venda para o Codigo");
 		}
 	}
 	
@@ -204,8 +194,7 @@ public class Cadastro {
 	 * @return Lista ordenada das vendas que o cliente fez
 	 * @throws SisVendasException
 	 */
-	
-	public static <T> ArrayList<Venda> procurarVendaCliente(Cliente cliente) throws SisVendasException{
+	public static ArrayList<Venda> procurarVendaCliente(Cliente cliente) throws SisVendasException{
 		
 		ArrayList<Venda> ListaAux = new ArrayList<Venda>(); 
  		
@@ -246,8 +235,7 @@ public class Cadastro {
 	 * @return Lista desse periodo
 	 * @throws SisVendaException
 	 */
-	
-	public static ArrayList<Venda> procurarVendaPeriodo(GregorianCalendar dataInicio,GregorianCalendar dataFinal) throws SisVendasException{
+	public static ArrayList<Venda> procurarVendaPeriodo(GregorianCalendar dataInicio,GregorianCalendar dataFinal){
 		
 		ArrayList<Venda> listAux = new ArrayList<Venda>();
 		
@@ -257,28 +245,61 @@ public class Cadastro {
 			}
 		}
 		
-		if(listAux.isEmpty()){
-			throw new SisVendasException("Não encontrado");
-		}else{
-			Collections.sort(listAux, new Comparator<Venda>() {
+		Collections.sort(listAux, new Comparator<Venda>() {
 
-				@Override
-				public int compare(Venda aux1, Venda aux2) {
-					int compararNomes = aux1.getCliente().getNome().compareTo(aux2.getCliente().getNome());
-					
-					if(compararNomes == 0){
-						return aux2.getDataVenda().compareTo(aux1.getDataVenda());
-					}
-					
-					return compararNomes;
-				}
-			});
+			@Override
+			public int compare(Venda aux1, Venda aux2) {
+				int compararNomes = aux1.getCliente().getNome().compareTo(aux2.getCliente().getNome());
 			
-			return listAux;
-		}
-		
-		
+				if(compararNomes == 0){
+					return aux2.getDataVenda().compareTo(aux1.getDataVenda());
+				}
+				
+				return compararNomes;
+			}
+			
+		});
+			
+		return listAux;
 	}
 	
+	//-----------------------ESTATISTICAS------------------------//	
 	
+	/**
+	 * Metodo para criar uma lista com a estatisticas do periodo de venda
+	 * @author Daniel Nascimento
+	 * @param GregorianCalendar dataInicio - Data de Inicio das estatisticas
+	 * @param GregorianCalendar dataFinal - Data Final das estatisticas
+	 * @return listaAux - Lista com a estatistica
+	 */
+	public static ArrayList<EstatisticaVenda> estatisticasVenda(GregorianCalendar dataInicio, GregorianCalendar dataFinal){
+		
+		int numVendas = 0;
+		double valorTotal = 0;
+		
+		ArrayList<EstatisticaVenda> listaAux = new ArrayList<EstatisticaVenda>();
+		
+		EstatisticaVenda estatisticasVenda = new EstatisticaVenda();
+		ArrayList<Venda> auxiliarPeriodo = procurarVendaPeriodo(dataInicio, dataFinal);
+		
+		for(Venda venda : auxiliarPeriodo){
+			for(Produto produto : produtos.values()){
+				for(ItemVenda item : venda.getVendaItem()){
+					if(item.getProduto().getCodigo() == produto.getCodigo()){
+						numVendas += item.getQuantVenda();
+						valorTotal += item.getValorVenda();
+						estatisticasVenda.setNome(produto.getNome());
+						estatisticasVenda.setQtdVendas(numVendas);
+						estatisticasVenda.setTotalVendas(valorTotal);
+						listaAux.add(estatisticasVenda);
+						numVendas = 0;
+						valorTotal = 0;
+					}
+				}
+			}
+		}
+		return listaAux;
+	}
 }
+	
+
