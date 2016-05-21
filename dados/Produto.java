@@ -6,11 +6,12 @@ package dados;
 
  */
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 import utilitarios.LtpUtil;
 
-public class Produto {
+public class Produto implements Serializable {
 
 	private int codigo;
 	private String nome;
@@ -21,6 +22,9 @@ public class Produto {
 	/**Atributo para autoincrementar o codigo do produto */	
 	private static int ultimoCod = 0;
 	
+	private int dia = new GregorianCalendar().get(GregorianCalendar.DAY_OF_MONTH);
+	private int mes = new GregorianCalendar().get(GregorianCalendar.MONTH);
+	private int ano = new GregorianCalendar().get(GregorianCalendar.YEAR);
 	/**Metodo construtor do Objeto Produto
 	
 	*	@author Daniel Nascimento
@@ -34,8 +38,7 @@ public class Produto {
 		this.codigo = ++ultimoCod;
 		this.nome = nome;
 		this.precoUnitario = precoUnitario;
-		this.dataInclusao = dataInclusao;
-		this.dataUltAlteracao = dataUltAlteracao;
+		this.dataInclusao = new GregorianCalendar(ano,mes,dia);
 	}
 	
 	public int getCodigo() {
@@ -86,7 +89,7 @@ public class Produto {
 	*/
 	@Override
 	public String toString() {
-		return "codigo = " + codigo + 
+		return "\ncodigo = " + codigo + 
 				"\nnome = " + nome + 
 				"\nprecoUnitario = " + precoUnitario + 
 				"\ndataInclusao = " + LtpUtil.formatarData(dataInclusao, "dd/MM/yyyy") + 

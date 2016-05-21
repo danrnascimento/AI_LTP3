@@ -1,20 +1,41 @@
 package usuario;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 import cadastro.Cadastro;
 import dados.Cliente;
+import dados.EstatisticaVenda;
+import dados.ItemVenda;
 import dados.Produto;
+import dados.Venda;
 import erros.SisVendasException;
 import utilitarios.LtpUtil;
 import utilitarios.Console;
 
 public class Usuario {
-
-	public static void main(String[] args) {
 	
+	static Scanner leia = new Scanner(System.in);
+	
+	public static void main(String[] args) throws SisVendasException {
+	
+		if (new File("Lista.obj").exists()) {
+			lerArquivos();
+		}
 		
+		menu();
+		gravarArquivo();
+		System.out.println("\nFIM");
+		System.exit(0);
 		
 	} 
 	
@@ -184,7 +205,7 @@ public class Usuario {
 		
 		try {
 			
-			Cadastro.procurarClienteCpf(cpf).toString();
+			System.out.println(Cadastro.procurarClienteCpf(cpf).toString());
 		
 		} catch (SisVendasException e) {
 			
@@ -225,8 +246,8 @@ public class Usuario {
 				
 	}
 	
-	//-------------------------------- PRODUTO -----------------------------------------
-	//
+	//-------------------------------- PRODUTO -----------------------------------------//
+	
 	/**
 	 * Metodo para incluir novo produto
 	 * @throws SisVendasException
@@ -239,7 +260,7 @@ public class Usuario {
 		//entrar com o CPF e verificar se está correto
 			
 		do{
-			System.out.println("Digite o nome do Cliente: ");
+			System.out.println("Digite o nome do Produto: ");
 			nome = Console.readLine();
 			if(nome == null || nome.isEmpty()){
 				System.out.println("Nome inválido!");
@@ -248,7 +269,7 @@ public class Usuario {
 			
 		do{
 			System.out.println("Digite o preco do produto");
-			precoUnitario = Console.readDouble(null);
+			precoUnitario = Double.parseDouble(leia.nextLine());
 			if(precoUnitario <= 0 || precoUnitario == null){
 				System.out.println("Preco Inválido!");
 			}
@@ -278,7 +299,7 @@ public class Usuario {
 			System.out.println("Digite o codigo do produto: ");
 			codigo = Console.readInt(null);
 			if (codigo < 0){
-				System.out.println("!! Produto não encontrado !!");
+				System.out.println("Codigo Inválido");
 			}
 			
 		}while(codigo < 0);
@@ -325,4 +346,441 @@ public class Usuario {
 		
 	}
 	
+	/**
+	 * Metodo para remover produto
+	 * @author Daniel Nascimento
+	 */
+	public static void excluirProduto(){
+		
+		int codigo;
+		Produto produto;
+		String confirmar;
+		boolean error = false;
+		
+		do{
+			System.out.println("Digite o codigo do produto que deseja procurar");
+			codigo = Console.readInt(null);
+			if(codigo < 0){
+				System.out.println("Codigo inválido");
+			}
+		}while(codigo < 0);
+		
+		try {
+			produto = Cadastro.procurarProdutoCod(codigo);
+			
+			for(Venda vendaAux : Cadastro.vendas.values()){
+				for(ItemVenda itemVendaAux2 : vendaAux.getVendaItem()){
+					if(itemVendaAux2.getProduto().getCodigo() == codigo){
+						error = true;
+						System.out.println("Produto cadastrado, impossivel ser removido");
+						break;
+					}
+				}
+			}
+			
+			if(!error){
+				
+				produto.toString();
+				
+				System.out.println("\n\nDeseja alterar? (Sim/nao)");
+				confirmar = Console.readLine();
+				
+				if(confirmar.equalsIgnoreCase("sim")){
+					Cadastro.removerProduto(produto);
+				}
+				
+			}
+			
+		} catch (SisVendasException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Metodo para procurar Produto pelo nome e exibir em ordem alfabetica
+	 * @author Daniel Nascimento
+	 */
+	public static void procurarProduto(){
+		
+		String nome;
+		
+		do{
+			System.out.println("Digite o nome do Produto que deseja procurar: ");
+			nome = Console.readLine();
+			if(nome.isEmpty()){
+				System.out.println("Nome Inválido");
+			}
+		}while(nome.isEmpty());
+		
+		try {
+			
+			ArrayList<Produto> produtos = Cadastro.procurarProdutoNome(nome);
+			
+			for(Produto auxiliar : produtos){
+				System.out.println(auxiliar.toString());
+			}
+			
+		} catch (Exception e) {
+			e.getMessage();
+		}
+		
+	}
+	
+	//-------------------------------- VENDAS -----------------------------------------//
+	
+	/**
+	 * Metodo para incluir uma nova venda
+	 * @author Daniel Nascimento
+	 */
+	public static void incluirVenda(){
+		
+		String cpf;
+		Double precoUnitario;
+		int quantidade;
+		boolean error = false;
+		boolean continuar;
+		int codProduto;
+		Cliente cliente = null;
+		Produto produto = null;
+		Double valorTotal;
+		String adicionarMaisUm;
+		
+		do{
+			System.out.println("Digite o CPF do Cliente");
+			cpf = Console.readLine();
+			if(cpf.isEmpty() || !LtpUtil.validarCPF(cpf)){
+				System.out.println("CPF Inválido");
+			}
+		}while(cpf.isEmpty() || !LtpUtil.validarCPF(cpf));
+		
+		try {
+			
+			cliente = Cadastro.procurarClienteCpf(cpf);
+			
+		} catch (SisVendasException e) {
+			e.getMessage();
+		}
+		
+		ArrayList<ItemVenda> listaItens = new ArrayList<ItemVenda>();
+		
+		do{
+			continuar = false;
+			do{
+				do{
+					System.out.println("Insira o codigo do produto :");
+					codProduto = Integer.parseInt(leia.nextLine());
+					if(codProduto < 0 || codProduto == 0){
+						System.out.println("Codigo inválido");
+					}
+				}while(codProduto == 0);
+				
+				try {
+					
+					produto = Cadastro.procurarProdutoCod(codProduto);
+					
+					for(ItemVenda itens : listaItens){
+						if(itens.getProduto().equals(produto)){
+							System.out.println("Produto já inserido");
+							error = true;
+							break;
+						}else{
+							System.out.println("Produto : " + produto.getNome());
+						}
+					}
+					
+				} catch (SisVendasException e) {
+					System.out.println(e.getMessage());
+				}
+					
+				
+			
+			
+				precoUnitario = produto.getPrecoUnitario();
+				
+				do{
+					System.out.println("Digite a quantidade de ");
+					quantidade = Integer.parseInt(leia.nextLine());
+				}while(quantidade <= 0);
+				
+				valorTotal = precoUnitario * quantidade;
+				
+				ItemVenda itemVenda = new ItemVenda(produto, precoUnitario, quantidade, valorTotal);
+				
+				System.out.println("Item da Venda Inserido");
+				
+				listaItens.add(itemVenda);
+				
+			} while(listaItens.isEmpty() || error);
+			
+			System.out.println("\n\nDeseja Adicionar mais um produto? (Sim/nao)");
+			adicionarMaisUm = Console.readLine();
+			
+			if(adicionarMaisUm.equalsIgnoreCase("sim")){
+				continuar = false;
+			}else{
+				
+				continuar = true;
+			}
+			
+		}while(!continuar);
+		
+		Venda venda = new Venda(cliente, listaItens);
+		
+		Cadastro.incluirVenda(venda);
+		
+	}
+	
+	/**
+	 * Metodo para remover uma venda
+	 * @author Daniel Nascimento
+	 */
+	public static void excluirVenda(){
+		
+		int codVenda;
+		String confirmar;
+		
+		do{
+			System.out.println("Digite o numero da Venda: ");
+			codVenda = Console.readInt(null);
+			if(codVenda < 0){
+				System.out.println("Numero de Venda Invalido!");
+			}
+		}while(codVenda < 0);
+		
+		try {
+			
+			Venda venda = Cadastro.procurarVenda(codVenda);
+			System.out.println(venda.toString());
+			
+			System.out.println("\n\nDeseja Excluir? (Sim/nao)");
+			confirmar = Console.readLine();
+			
+			if(confirmar.equalsIgnoreCase("sim")){
+				Cadastro.removerVenda(venda);
+			}
+			
+		} catch (SisVendasException e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	
+	/**
+	 * Metodo para procurar produto por Periodo e exibir de forma decrescente
+	 * @author Daniel Nascimento
+	 */
+	public static void procurarVendaPeriodo(){
+		
+		String dataInicio, dataFinal;
+		GregorianCalendar dataCInicio = new GregorianCalendar();
+		GregorianCalendar dataCFinal = new GregorianCalendar();
+		boolean error = false;
+		
+		do{
+			error = false;
+			System.out.println("Digite a data de inicio: ");
+			dataInicio = Console.readLine();
+			if(dataInicio.isEmpty() || !LtpUtil.validarData(dataInicio, dataCInicio)){
+				System.out.println("Data Inválida");
+				error = true;
+			}else if(dataCInicio.after(new GregorianCalendar())){
+				System.out.println("A Data de Inicio não pode ser superior a data atual");
+				error = true;
+			}
+		}while(error);
+		
+		do{
+			error = false;
+			System.out.println("Digite a data Final: ");
+			dataFinal = Console.readLine();
+			if(dataFinal.isEmpty() || !LtpUtil.validarData(dataFinal, dataCFinal)){
+				System.out.println("Data Inválida");
+				error = true;
+			}else if(dataCFinal.after(new GregorianCalendar())){
+				System.out.println("A Data Final não pode ser superior a data atual");
+				error = true;
+			}else if(dataCFinal.before(dataCInicio)){
+				System.out.println("A Data Final não pode ser anterior a de Inicio");
+			}
+		}while(error);
+		
+		ArrayList<Venda> vendas = Cadastro.procurarVendaPeriodo(dataCInicio, dataCFinal);
+		
+		for(Venda venda : vendas){
+			System.out.println(venda.toString());
+		}
+		
+		
+	}
+	
+	//-------------------------------- ESTATISTICAS -----------------------------------------//
+	
+	/**
+	 * Metodo para exibir estatisticas por periodo de vendas
+	 * @author Daniel Nascimento
+	 */
+	public static void consultarEstatistica(){
+		
+		String dataInicio, dataFinal;
+		GregorianCalendar dataCInicio = new GregorianCalendar();
+		GregorianCalendar dataCFinal = new GregorianCalendar();
+		boolean error = false;
+		
+		do{
+			error = false;
+			System.out.println("Digite a data de inicio: ");
+			dataInicio = Console.readLine();
+			if(dataInicio.isEmpty() || !LtpUtil.validarData(dataInicio, dataCInicio)){
+				System.out.println("Data Inválida");
+				error = true;
+			}else if(dataCInicio.after(new GregorianCalendar())){
+				System.out.println("A Data de Inicio não pode ser superior a data atual");
+				error = true;
+			}
+		}while(error);
+		
+		do{
+			error = false;
+			System.out.println("Digite a data Final: ");
+			dataFinal = Console.readLine();
+			if(dataFinal.isEmpty() || !LtpUtil.validarData(dataFinal, dataCFinal)){
+				System.out.println("Data Inválida");
+				error = true;
+			}else if(dataCFinal.after(new GregorianCalendar())){
+				System.out.println("A Data Final não pode ser superior a data atual");
+				error = true;
+			}else if(dataCFinal.before(dataCInicio)){
+				System.out.println("A Data Final não pode ser anterior a de Inicio");
+			}
+		}while(error);
+		
+		ArrayList<EstatisticaVenda> estatistica = Cadastro.estatisticasVenda(dataCInicio, dataCFinal);
+		
+		for(EstatisticaVenda aux : estatistica){
+			System.out.println(aux.toString());
+		}
+		
+	}
+
+	//-------------------------------- MENU -----------------------------------------//
+	
+	/**
+	 * Metodo para exibir e controlar o menu
+	 * @author Daniel Nascimento
+	 */
+	public static void menu(){
+		int opcao = 0;
+		do{
+			System.out.println("\n===== Escolha uma das opções abaixo:  =====\n"
+					+ "\nCLIENTES \n"
+					+ "\n\t 1 - INSERIR UM CLIENTE"
+					+ "\n\t 2 - ALTERAR UM CLIENTE"
+					+ "\n\t 3 - EXCLUIR UM CLIENTE"
+					+ "\n\t 4 - CONSULTA DADOS DO CLIENTE"
+					+ "\n\t 5 - CONSULTA CLIENTES PELO NOME \n"
+					+ "\nPRODUTOS \n"
+					+ "\n\t 6 - INSERIR UM PRODUTO"
+					+ "\n\t 7 - ALTERAR UM PRODUTO"
+					+ "\n\t 8 - EXCLUIR UM PRODUTO"
+					+ "\n\t 9 - CONSULTA PRODUTOS PELO NOME \n"
+					+ "\nVENDAS \n"
+					+ "\n\t 10 - INSERIR UMA VENDA"
+					+ "\n\t 11 - EXCLUIR UMA VENDA"
+					+ "\n\t 12 - CONSULTA VENDAS POR PERIODO"
+					+ "\n\t 13 - CONSULTA ESTATISTICA DE VENDAS POR PERIODO"
+					+ "\n\n 0 - SAIR \n");
+
+			System.out.println("Entre com a opção desejada: ");
+			opcao = Integer.parseInt(leia.nextLine());
+
+			switch(opcao){
+			case 0: 
+				break;
+			case 1:		
+				incluirCliente();
+				break;
+			case 2:
+				alterarCliente();
+				break;
+			case 3:
+				excluirCliente();
+				break;
+			case 4:
+				consultarClienteCpf();
+				break;
+			case 5:
+				consultarClienteNome();
+				break;
+			case 6:		
+				incluirProduto();
+				break;
+			case 7:
+				alterarProduto();
+				break;
+			case 8:
+				excluirProduto();
+				break;
+			case 9:
+				procurarProduto();
+				break;
+			case 10:
+				incluirVenda();
+				break;
+			case 11:
+				excluirVenda();
+				break;
+			case 12:
+				procurarVendaPeriodo();
+				break;
+			case 13:
+				consultarEstatistica();
+				break;						
+			default:
+				System.out.println("Opção Inválida");
+				break;
+			}
+
+		}while(opcao != 0);
+
+	}
+	
+	//-------------------------------- ARQUIVOS -----------------------------------------//
+	
+	/**
+	 * Metodo para ler arquivos
+	 * @author Daniel Nascimento
+	 */
+	public static void lerArquivos(){
+		
+		try {
+			
+			ObjectInputStream leitura = new ObjectInputStream(new FileInputStream("Lista.obj"));
+			Cadastro.clientes = (Map<String, Cliente>)leitura.readObject();
+			Cadastro.produtos = (Map<Integer, Produto>)leitura.readObject();
+			Cadastro.vendas = (Map<Integer, Venda>)leitura.readObject();
+			leitura.close();
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+
+	/**
+	 * Metodo para gravar arquivo
+	 * @author Daniel Nascimento
+	 */
+	public static void gravarArquivo(){
+		try {
+			
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Lista.obj"));
+			out.writeObject(Cadastro.clientes);
+			out.writeObject(Cadastro.produtos);
+			out.writeObject(Cadastro.vendas);
+			out.close();
+			
+		} catch (Exception e) {
+			System.out.println("Rolou erro : " + e.getMessage());
+		}
+	}
 }

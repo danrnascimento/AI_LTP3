@@ -9,6 +9,8 @@ package dados;
 
 import java.util.GregorianCalendar;
 
+import utilitarios.LtpUtil;
+
 public class Cliente {
 	private String cpf;
 	private String nome;
@@ -81,12 +83,12 @@ public class Cliente {
 	
 	@Override
 	public String toString() {
-		return "cpf = " + cpf + 
-				"\nnome = " + nome + 
-				"\ntelefone = " + telefone + 
-				"\nemail = " + email + 
-				"\ndataInclusao = " + dataInclusao+ 
-				"\ndataUltAlteracao = " + dataUltAlteracao;
+		return "\nCpf = " + cpf + 
+				"\nNome = " + nome + 
+				"\nTelefone = " + telefone + 
+				"\nEmail = " + email + 
+				"\nDataInclusao = " + LtpUtil.formatarData(dataInclusao, "dd/MM/yyyy")+ 
+				"\nDataUltAlteracao = " + LtpUtil.formatarData(dataUltAlteracao, "dd/MM/yyyy");
 	}
 	
 }
