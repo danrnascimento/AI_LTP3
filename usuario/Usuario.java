@@ -25,6 +25,12 @@ import erros.SisVendasException;
 import utilitarios.LtpUtil;
 import utilitarios.Console;
 
+/**
+ * Classe para interagir com usuário
+ * @author Daniel Nascimento
+ * @since 09/05/2016
+ * @version 1.0
+ */
 public class Usuario {
 	
 	static Scanner leia = new Scanner(System.in);
@@ -841,6 +847,13 @@ public class Usuario {
 	
 	//---------------------------------------- HELPERS ---------------------------------------------//
 	
+	/**
+	 * Funcao para verificar se Existe CPF cadastrado
+	 * @author Daniel Nascimento
+	 * @param cpf
+	 * @return true ou false
+	 * @throws SisVendasException
+	 */
 	public static boolean verificarClienteCPF(String cpf) throws SisVendasException{
 		
 		

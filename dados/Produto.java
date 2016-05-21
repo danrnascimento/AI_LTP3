@@ -1,16 +1,17 @@
 package dados;
 
-/**Classe para objetos do tipo Produto, onde serão contidos, valores e métodos para o mesmo.
-
- * @author Daniel Nascimento
-
- */
 
 import java.io.Serializable;
 import java.io.ObjectInputStream.GetField;
 import java.util.GregorianCalendar;
 
 import utilitarios.LtpUtil;
+
+/**Classe para Produtos.
+ * @author Daniel Nascimento
+ * @since 09/05/2016
+ * @version 1.0 
+ */
 
 public class Produto implements Serializable {
 

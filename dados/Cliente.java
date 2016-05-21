@@ -1,10 +1,10 @@
 package dados;
 
-/**Classe para objetos do tipo Cliente, onde serão contidos, valores e métodos para o mesmo.
-
+/**
+ * Classe para Cliente
  * @author Daniel Nascimento
-
-
+ * @since 09/05/2016
+ * @version 1.0
  */
 
 import java.io.Serializable;
@@ -24,8 +24,14 @@ public class Cliente implements Serializable{
 	private int mes = new GregorianCalendar().get(GregorianCalendar.MONTH);
 	private int ano = new GregorianCalendar().get(GregorianCalendar.YEAR);
 	
-	//CONSTRUTOR
-	
+	/**
+	 * Construtor
+	 * @author Daniel Nascimento
+	 * @param cpf
+	 * @param nome
+	 * @param email
+	 * @param telefone
+	 */
 	public Cliente(String cpf, String nome, String email, String telefone){
 		this.dataInclusao = new GregorianCalendar(ano,mes,dia);
 		this.cpf = cpf;
@@ -34,11 +40,15 @@ public class Cliente implements Serializable{
 		this.telefone = telefone;
 	}
 	
+	/**
+	 * Construtor
+	 * @param cpf
+	 */
 	public Cliente(String cpf){
 		this.cpf = cpf;
 	}
 	
-	//GETTER AND SETTERS
+	//GETTERS E SETTERS
 	public String getNome() {
 		return nome;
 	}
@@ -83,9 +93,10 @@ public class Cliente implements Serializable{
 		this.dataUltAlteracao = dataUltAlteracao;
 	}
 
-
-	//METODOS:
-	
+	/**Metodo para passar dados para String
+	 * @author Daniel Nascimento
+	 * @return String - Todos os atributos passados para String 
+	*/
 	@Override
 	public String toString() {
 		return "\nCpf = " + cpf + 

@@ -3,18 +3,29 @@ package dados;
 
 import erros.*;
 
+/**
+ * Classe para Estatistica de Vendas
+ * @author Daniel Nascimento
+ * @since 09/05/2016
+ * @version 1.0
+ */
 public class EstatisticaVenda {
 
 	private String nome;
 	private int qtdVendas;
 	private Double totalVendas;
 	
+	/**
+	 * Construtor
+	 * @author Daniel Nascimento
+	 */
 	public EstatisticaVenda(){
 		this.nome = nome;
 		this.qtdVendas = qtdVendas;
 		this.totalVendas = totalVendas;
 	}
 	
+	//GETTERS E SETTERS
 	public String getNome(){
 		return this.nome;
 	}
@@ -39,6 +50,10 @@ public class EstatisticaVenda {
 		this.totalVendas = totalVendas;
 	}
 	
+	/**Metodo para passar dados para String
+	 * @author Daniel Nascimento
+	 * @return String - Todos os atributos passados para String 
+	*/
 	@Override
 	public String toString() {
 		return	"--------------" + 

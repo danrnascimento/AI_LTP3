@@ -8,6 +8,12 @@ import java.util.GregorianCalendar;
 
 import utilitarios.LtpUtil;
 
+/**
+ * Classe para Venda
+ * @author Daniel Nascimento
+ * @since 09/05/2016
+ * @version 1.0
+ */
 public class Venda implements Serializable{
 	
 	private int numVenda;
@@ -20,8 +26,17 @@ public class Venda implements Serializable{
 	private int mes = new GregorianCalendar().get(GregorianCalendar.MONTH);
 	private int ano = new GregorianCalendar().get(GregorianCalendar.YEAR);
 	
+	/**
+	 * Atributo para auto incrementar
+	 */
 	private static int seq;
 	
+	/**
+	 * Metodo Construtor
+	 * @param cliente
+	 * @param vendaItem
+	 * @param valorFinal
+	 */
 	public Venda(Cliente cliente, ArrayList<ItemVenda> vendaItem, Double valorFinal){
 		this.numVenda = ++seq;
 		this.cliente = cliente;
@@ -30,6 +45,7 @@ public class Venda implements Serializable{
 		this.dataVenda = new GregorianCalendar(ano,mes,dia);
 	}
 
+	//GETTERS E SETTERS
 	public int getNumVenda() {
 		return numVenda;
 	}
@@ -66,6 +82,10 @@ public class Venda implements Serializable{
 		this.valorFinal = valorFinal;
 	}
 	
+	/**Metodo para passar dados para String
+	 * @author Daniel Nascimento
+	 * @return String - Todos os atributos passados para String 
+	*/
 	@Override
 	public String toString() {
 		return "\n ============ VENDA NUM " + numVenda + "============" +
