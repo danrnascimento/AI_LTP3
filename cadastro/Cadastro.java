@@ -264,7 +264,7 @@ public class Cadastro {
 		return listAux;
 	}
 	
-	//-----------------------ESTATISTICAS------------------------//	
+	//-----------------------ESTATISTICAS-----------------------//	
 	
 	/**
 	 * Metodo para criar uma lista com a estatisticas do periodo de venda

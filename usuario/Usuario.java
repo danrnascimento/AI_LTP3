@@ -706,24 +706,24 @@ public class Usuario {
 	public static void menu(){
 		int opcao = 0;
 		do{
-			System.out.println("\n===== Escolha uma das opções abaixo:  =====\n"
-					+ "\nCLIENTES \n"
+			System.out.println("\n========| \tEscolha uma das opções abaixo:\t  |========\n"
+					+ "\n\tCLIENTES \n"
 					+ "\n\t 1 - INSERIR UM CLIENTE"
 					+ "\n\t 2 - ALTERAR UM CLIENTE"
 					+ "\n\t 3 - EXCLUIR UM CLIENTE"
 					+ "\n\t 4 - CONSULTA DADOS DO CLIENTE"
 					+ "\n\t 5 - CONSULTA CLIENTES PELO NOME \n"
-					+ "\nPRODUTOS \n"
+					+ "\n\tPRODUTOS \n"
 					+ "\n\t 6 - INSERIR UM PRODUTO"
 					+ "\n\t 7 - ALTERAR UM PRODUTO"
 					+ "\n\t 8 - EXCLUIR UM PRODUTO"
 					+ "\n\t 9 - CONSULTA PRODUTOS PELO NOME \n"
-					+ "\nVENDAS \n"
+					+ "\n\tVENDAS \n"
 					+ "\n\t 10 - INSERIR UMA VENDA"
 					+ "\n\t 11 - EXCLUIR UMA VENDA"
 					+ "\n\t 12 - CONSULTA VENDAS POR PERIODO"
 					+ "\n\t 13 - CONSULTA ESTATISTICA DE VENDAS POR PERIODO"
-					+ "\n\n 0 - SAIR \n");
+					+ "\n\n\t 0 - SAIR \n");
 
 			System.out.println("Entre com a opção desejada: ");
 			try {
@@ -845,7 +845,7 @@ public class Usuario {
 		}
 	}
 	
-	//---------------------------------------- HELPERS ---------------------------------------------//
+	//---------------------------------------- HELPERS ----------------------------------------- ---//
 	
 	/**
 	 * Funcao para verificar se Existe CPF cadastrado
