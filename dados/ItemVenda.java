@@ -9,12 +9,13 @@ import utilitarios.LtpUtil;
 
  */
 
-public class ItemVenda{
+public class ItemVenda implements Serializable{
 	
 	private Produto produto;
 	private double precoUnitario;
 	private int quantVenda;
 	private double valorVenda;
+	private Double valorFinal;
 	
 	public ItemVenda(Produto produto, double precoUnitario, int quantVenda, double valorVenda) {
 		super();
@@ -58,10 +59,10 @@ public class ItemVenda{
 	
 	@Override
 	public String toString() {
-		return "\nproduto = " + produto + 
-				"\nprecoUnitario = " + precoUnitario +
-				"\nquantVendas = " + quantVenda +
-				"\nvalorVenda = " + valorVenda;
+		return "\n --------------" +
+				"\nProduto = " + produto.getNome() + 
+				"\nPreco Unitario = " + precoUnitario +
+				"\nValor total dos Produtos = " + valorVenda;
 	}
 	
 	

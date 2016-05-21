@@ -7,11 +7,12 @@ package dados;
 
  */
 
+import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 import utilitarios.LtpUtil;
 
-public class Cliente {
+public class Cliente implements Serializable{
 	private String cpf;
 	private String nome;
 	private String telefone;
@@ -31,6 +32,10 @@ public class Cliente {
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
+	}
+	
+	public Cliente(String cpf){
+		this.cpf = cpf;
 	}
 	
 	//GETTER AND SETTERS
@@ -74,9 +79,9 @@ public class Cliente {
 		return dataUltAlteracao;
 	}
 
-	/*public void setDataUltAlteracao(GregorianCalendar dataUltAlteracao) {
+	public void setDataUltAlteracao(GregorianCalendar dataUltAlteracao) {
 		this.dataUltAlteracao = dataUltAlteracao;
-	}*/
+	}
 
 
 	//METODOS:

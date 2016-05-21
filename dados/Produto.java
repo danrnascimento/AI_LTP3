@@ -7,49 +7,41 @@ package dados;
  */
 
 import java.io.Serializable;
+import java.io.ObjectInputStream.GetField;
 import java.util.GregorianCalendar;
 
 import utilitarios.LtpUtil;
 
 public class Produto implements Serializable {
 
-	private int codigo;
+	private Integer codigo;
 	private String nome;
 	private Double precoUnitario;
 	private GregorianCalendar dataInclusao;
 	private GregorianCalendar dataUltAlteracao;
 	
 	/**Atributo para autoincrementar o codigo do produto */	
-	private static int ultimoCod = 0;
+	private static int seq;
 	
 	private int dia = new GregorianCalendar().get(GregorianCalendar.DAY_OF_MONTH);
 	private int mes = new GregorianCalendar().get(GregorianCalendar.MONTH);
 	private int ano = new GregorianCalendar().get(GregorianCalendar.YEAR);
+	
 	/**Metodo construtor do Objeto Produto
-	
 	*	@author Daniel Nascimento
-	
 	*	@param nome String - nome do produto
 	*	@param precoUnitario double - preco do produto
-	
 	*/
-	
 	public Produto(String nome, double precoUnitario){
-		this.codigo = ++ultimoCod;
+		codigo = ++seq;
 		this.nome = nome;
 		this.precoUnitario = precoUnitario;
 		this.dataInclusao = new GregorianCalendar(ano,mes,dia);
 	}
 	
 	public int getCodigo() {
-		return ultimoCod;
+		return codigo;
 	}
-	
-	/*
-	public void setCodigo(int codigo) {
-		Produto.ultimoCod = codigo;
-	}
- 	*/
 	
 	public String getNome() {
 		return nome;
@@ -74,18 +66,22 @@ public class Produto implements Serializable {
 	public GregorianCalendar getDataUltAlteracao() {
 		return dataUltAlteracao;
 	}
+	
+	public void setDataUltAlteracao(GregorianCalendar dataUltAlteracao){
+		this.dataUltAlteracao = dataUltAlteracao;
+	}
 
-	public static void setUltimoCod(int ultimoCod) {
-		Produto.ultimoCod = ultimoCod;
+	public static void setSeq(int seq) {
+		Produto.seq = seq;
 	}
 	
+	public static int getSeq(){
+		return Produto.seq;
+	}
 	
 	/**Metodo para passar dados para String
-	 
 	 * @author Daniel Nascimento
-	 
 	 * @return String - Todos os atributos passados para String 
-	 
 	*/
 	@Override
 	public String toString() {

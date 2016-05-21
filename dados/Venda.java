@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+
+
 import utilitarios.LtpUtil;
 
 public class Venda implements Serializable{
@@ -12,17 +14,19 @@ public class Venda implements Serializable{
 	private Cliente cliente;
 	private GregorianCalendar dataVenda;
 	private ArrayList<ItemVenda> vendaItem;
+	private Double valorFinal;
 	
 	private int dia = new GregorianCalendar().get(GregorianCalendar.DAY_OF_MONTH);
 	private int mes = new GregorianCalendar().get(GregorianCalendar.MONTH);
 	private int ano = new GregorianCalendar().get(GregorianCalendar.YEAR);
 	
-	private static int  ultimaVenda = 0;
+	private static int seq;
 	
-	public Venda(Cliente cliente, ArrayList<ItemVenda> vendaItem){
-		this.numVenda = ++ultimaVenda;
+	public Venda(Cliente cliente, ArrayList<ItemVenda> vendaItem, Double valorFinal){
+		this.numVenda = ++seq;
 		this.cliente = cliente;
 		this.vendaItem = vendaItem;
+		this.valorFinal = valorFinal;
 		this.dataVenda = new GregorianCalendar(ano,mes,dia);
 	}
 
@@ -50,20 +54,27 @@ public class Venda implements Serializable{
 		this.vendaItem = vendaItem;
 	}
 
-	public static int getUltimaVenda() {
-		return ultimaVenda;
+	public static void setSeq(int seq) {
+		Venda.seq = seq;
+	}
+	
+	public Double getValorFinal() {
+		return valorFinal;
 	}
 
-	public static void setUltimaVenda(int ultimaVenda) {
-		Venda.ultimaVenda = ultimaVenda;
+	public void setValorFinal(Double valorFinal) {
+		this.valorFinal = valorFinal;
 	}
 	
 	@Override
 	public String toString() {
-		return "\nnumVenda = " + numVenda + 
-				"\ncliente = " + cliente.getNome() +
-				"\ndataVenda = " + LtpUtil.formatarData(dataVenda, "dd/MM/yyyy") +
-				"\nvendaItem = " + vendaItem;
+		return "\n ============ VENDA NUM " + numVenda + "============" +
+				"\nCliente = " + cliente.getNome() +
+				"\nData da Venda = " + LtpUtil.formatarData(dataVenda, "dd/MM/yyyy") +
+				"\n\n==============" + 
+				"\nDados do Produto :: " + vendaItem +
+				"\n==============" + 
+				"\n\nValor Final = " + valorFinal ;
 	}
 
 }

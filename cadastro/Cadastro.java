@@ -8,6 +8,7 @@ package cadastro;
 
 import dados.*;
 import erros.SisVendasException;
+
 import java.util.*;
 
 public class Cadastro {
@@ -272,31 +273,46 @@ public class Cadastro {
 	 * @param GregorianCalendar dataFinal - Data Final das estatisticas
 	 * @return listaAux - Lista com a estatistica
 	 */
-	public static ArrayList<EstatisticaVenda> estatisticasVenda(GregorianCalendar dataInicio, GregorianCalendar dataFinal){
+	public static HashMap<String, EstatisticaVenda> estatisticasVenda(GregorianCalendar dataInicio, GregorianCalendar dataFinal){
 		
 		int numVendas = 0;
 		double valorTotal = 0;
+		EstatisticaVenda estatisticasVenda;
 		
-		ArrayList<EstatisticaVenda> listaAux = new ArrayList<EstatisticaVenda>();
+		HashMap<String, dados.EstatisticaVenda> listaAux = new HashMap<String, EstatisticaVenda>();
 		
-		EstatisticaVenda estatisticasVenda = new EstatisticaVenda();
+		
 		ArrayList<Venda> auxiliarPeriodo = procurarVendaPeriodo(dataInicio, dataFinal);
 		
 		for(Venda venda : auxiliarPeriodo){
-			for(Produto produto : produtos.values()){
-				for(ItemVenda item : venda.getVendaItem()){
-					if(item.getProduto().getCodigo() == produto.getCodigo()){
-						numVendas += item.getQuantVenda();
-						valorTotal += item.getValorVenda();
-						estatisticasVenda.setNome(produto.getNome());
+			for(Cliente cliente : clientes.values()){
+				if(cliente.getCpf() == venda.getCliente().getCpf()){
+					try {
+						
+						estatisticasVenda = listaAux.get(venda.getCliente().getNome());
+						
+						valorTotal = estatisticasVenda.getTotalVendas() + venda.getValorFinal();
+						estatisticasVenda.setTotalVendas(valorTotal);
+
+						numVendas = estatisticasVenda.getQtdVendas() + 1;
+ 						estatisticasVenda.setQtdVendas(numVendas);
+						
+					} catch (Exception e) {
+						valorTotal += venda.getValorFinal();
+						numVendas++;
+						
+						estatisticasVenda = new EstatisticaVenda();
+						estatisticasVenda.setNome(cliente.getNome());
 						estatisticasVenda.setQtdVendas(numVendas);
 						estatisticasVenda.setTotalVendas(valorTotal);
-						listaAux.add(estatisticasVenda);
-						numVendas = 0;
-						valorTotal = 0;
+						listaAux.put(estatisticasVenda.getNome(),estatisticasVenda);
 					}
+					
+					numVendas = 0;
+					valorTotal = 0;
 				}
 			}
+			
 		}
 		return listaAux;
 	}

@@ -41,9 +41,10 @@ public class EstatisticaVenda {
 	
 	@Override
 	public String toString() {
-		return	"\nnome = " + nome + 
-				"\nqtdVendas = " + qtdVendas +
-				"\nvalorTotal = " + totalVendas;
+		return	"--------------" + 
+				"\nNome do Cliente = " + nome + 
+				"\nQuantidade de compras = " + qtdVendas +
+				"\nValor Total = " + totalVendas;
 	}
 	
 }

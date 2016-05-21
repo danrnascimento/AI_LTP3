@@ -6,11 +6,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import javax.sql.rowset.spi.SyncFactoryException;
 
 import cadastro.Cadastro;
 import dados.Cliente;
@@ -51,6 +54,7 @@ public class Usuario {
 		String nome;
 		String telefone;
 		String email;
+		boolean error;
 		
 		//entrar com o CPF e verificar se está correto
 		
@@ -61,7 +65,16 @@ public class Usuario {
 			if(LtpUtil.validarCPF(cpf) == false || cpf.isEmpty()){
 				System.out.println("CPF Inválido!");
 			}
-		}while(!LtpUtil.validarCPF(cpf) || cpf.isEmpty());
+			
+			try {
+				Cliente cliente = Cadastro.procurarClienteCpf(cpf);
+				System.out.println("Cliente já cadastrado");
+				error = true;
+			} catch (SisVendasException e) {
+				error = false;
+			}
+			
+		}while(!LtpUtil.validarCPF(cpf) || cpf.isEmpty() || error);
 		
 		do{
 			System.out.println("Digite o nome do Cliente: ");
@@ -114,9 +127,9 @@ public class Usuario {
 			
 			Cliente cliente = Cadastro.procurarClienteCpf(cpf);
 			
-			cliente.toString();
+			System.out.println(cliente.toString());
 						
-			System.out.println("Deseja Alterar ? (Sim/nao)");
+			System.out.println("\n\nDeseja Alterar ? (Sim/nao)");
 			String resp = Console.readLine();
 			
 			if (resp.equalsIgnoreCase("sim")){
@@ -141,6 +154,8 @@ public class Usuario {
 				}while(!LtpUtil.validarEmail(email));
 				
 				cliente.setEmail(email);
+				GregorianCalendar dataAlteracao = new GregorianCalendar();
+				cliente.setDataUltAlteracao(dataAlteracao);
 			}
 			
 		}catch (SisVendasException e) {
@@ -169,16 +184,13 @@ public class Usuario {
 		try {
 			Cliente cliente = Cadastro.procurarClienteCpf(cpf);
 			
-			cliente.toString();
+			System.out.println(cliente.toString());
 			
-			System.out.println("Deseja Excluir ? (Sim/nao)");
+			System.out.println("\n\nDeseja Excluir ? (Sim/nao)");
 			String resp = Console.readLine();
 			
 			if (resp.equalsIgnoreCase("sim")){
 				Cadastro.removerCliente(cliente);
-			}else{
-				System.out.println("Obrigado");
-				System.exit(0);
 			}
 			
 		} catch (SisVendasException e) {
@@ -256,8 +268,7 @@ public class Usuario {
 		
 		String nome;
 		Double precoUnitario;
-		
-		//entrar com o CPF e verificar se está correto
+
 			
 		do{
 			System.out.println("Digite o nome do Produto: ");
@@ -269,7 +280,11 @@ public class Usuario {
 			
 		do{
 			System.out.println("Digite o preco do produto");
-			precoUnitario = Double.parseDouble(leia.nextLine());
+			try {
+				precoUnitario = Double.parseDouble(leia.nextLine());
+			} catch (Exception e) {
+				precoUnitario = -1.0;
+			}
 			if(precoUnitario <= 0 || precoUnitario == null){
 				System.out.println("Preco Inválido!");
 			}
@@ -297,7 +312,7 @@ public class Usuario {
 		do {
 			
 			System.out.println("Digite o codigo do produto: ");
-			codigo = Console.readInt(null);
+			codigo = Integer.parseInt(leia.nextLine());
 			if (codigo < 0){
 				System.out.println("Codigo Inválido");
 			}
@@ -307,7 +322,7 @@ public class Usuario {
 		try {
 			produto = Cadastro.procurarProdutoCod(codigo);
 			
-			produto.toString();
+			System.out.println(produto.toString());
 			
 			System.out.println("\n\nDeseja alterar? (Sim/nao)");
 			confirmar = Console.readLine();
@@ -325,17 +340,20 @@ public class Usuario {
 				
 				do{
 					System.out.println("Digite o novo preco do produto");
-					precoUnitario = Console.readDouble(null);
-					if (precoUnitario <= 0 || precoUnitario == null){
+					try {
+						precoUnitario = Double.parseDouble(leia.nextLine());
+					} catch (Exception e) {
+						precoUnitario = -1.0;
+					}if (precoUnitario <= 0 || precoUnitario == null){
 						System.out.println("Preco do produto é inválido ou nulo");
 					}
 				}while(precoUnitario <= 0 || precoUnitario == null);
 				
 				produto.setPrecoUnitario(precoUnitario);
 				
-			}else{
-				System.out.println("Obrigado!");
-				System.exit(0);
+				GregorianCalendar dataUltAlteracao = new GregorianCalendar();
+				produto.setDataUltAlteracao(dataUltAlteracao);
+				
 			}
 			
 		} catch (SisVendasException e) {
@@ -358,8 +376,13 @@ public class Usuario {
 		boolean error = false;
 		
 		do{
-			System.out.println("Digite o codigo do produto que deseja procurar");
-			codigo = Console.readInt(null);
+			System.out.println("Digite o codigo do produto que deseja Excluir");
+			try {
+				codigo = Integer.parseInt(leia.nextLine());
+			} catch (Exception e) {
+				codigo = -1;
+			}
+			
 			if(codigo < 0){
 				System.out.println("Codigo inválido");
 			}
@@ -372,7 +395,7 @@ public class Usuario {
 				for(ItemVenda itemVendaAux2 : vendaAux.getVendaItem()){
 					if(itemVendaAux2.getProduto().getCodigo() == codigo){
 						error = true;
-						System.out.println("Produto cadastrado, impossivel ser removido");
+						System.out.println("Produto cadastrado com venda, impossivel ser removido");
 						break;
 					}
 				}
@@ -380,13 +403,15 @@ public class Usuario {
 			
 			if(!error){
 				
-				produto.toString();
+				System.out.println(produto.toString());
 				
-				System.out.println("\n\nDeseja alterar? (Sim/nao)");
+				System.out.println("\n\nDeseja Excluir? (Sim/nao)");
 				confirmar = Console.readLine();
 				
 				if(confirmar.equalsIgnoreCase("sim")){
 					Cadastro.removerProduto(produto);
+				}else{
+					System.out.println("Não foi possivel exluir");
 				}
 				
 			}
@@ -444,6 +469,7 @@ public class Usuario {
 		Produto produto = null;
 		Double valorTotal;
 		String adicionarMaisUm;
+		Double valorFinal = 0.0;
 		
 		do{
 			System.out.println("Digite o CPF do Cliente");
@@ -467,12 +493,12 @@ public class Usuario {
 			continuar = false;
 			do{
 				do{
-					System.out.println("Insira o codigo do produto :");
+					System.out.println("Insira o codigo do produto");
 					codProduto = Integer.parseInt(leia.nextLine());
-					if(codProduto < 0 || codProduto == 0){
+					if(codProduto <= 0){
 						System.out.println("Codigo inválido");
 					}
-				}while(codProduto == 0);
+				}while(codProduto <= 0);
 				
 				try {
 					
@@ -483,30 +509,31 @@ public class Usuario {
 							System.out.println("Produto já inserido");
 							error = true;
 							break;
-						}else{
-							System.out.println("Produto : " + produto.getNome());
 						}
 					}
 					
 				} catch (SisVendasException e) {
 					System.out.println(e.getMessage());
 				}
-					
-				
-			
 			
 				precoUnitario = produto.getPrecoUnitario();
 				
 				do{
-					System.out.println("Digite a quantidade de ");
-					quantidade = Integer.parseInt(leia.nextLine());
+					System.out.println("Digite a quantidade de Produtos");
+					try {
+						quantidade = Integer.parseInt(leia.nextLine());
+					} catch (Exception e) {
+						quantidade = -1;
+					}
+					if(quantidade <= 0){
+						System.out.println("Quantidade Invalida");
+					}
+					
 				}while(quantidade <= 0);
 				
 				valorTotal = precoUnitario * quantidade;
 				
 				ItemVenda itemVenda = new ItemVenda(produto, precoUnitario, quantidade, valorTotal);
-				
-				System.out.println("Item da Venda Inserido");
 				
 				listaItens.add(itemVenda);
 				
@@ -514,18 +541,16 @@ public class Usuario {
 			
 			System.out.println("\n\nDeseja Adicionar mais um produto? (Sim/nao)");
 			adicionarMaisUm = Console.readLine();
-			
+			valorFinal = valorFinal + valorTotal;
 			if(adicionarMaisUm.equalsIgnoreCase("sim")){
 				continuar = false;
 			}else{
-				
 				continuar = true;
 			}
 			
 		}while(!continuar);
 		
-		Venda venda = new Venda(cliente, listaItens);
-		
+		Venda venda = new Venda(cliente, listaItens, valorFinal);
 		Cadastro.incluirVenda(venda);
 		
 	}
@@ -541,7 +566,11 @@ public class Usuario {
 		
 		do{
 			System.out.println("Digite o numero da Venda: ");
-			codVenda = Console.readInt(null);
+			try {
+				codVenda = Integer.parseInt(leia.nextLine());
+			} catch (Exception e) {
+				codVenda = -1;
+			}
 			if(codVenda < 0){
 				System.out.println("Numero de Venda Invalido!");
 			}
@@ -654,9 +683,9 @@ public class Usuario {
 			}
 		}while(error);
 		
-		ArrayList<EstatisticaVenda> estatistica = Cadastro.estatisticasVenda(dataCInicio, dataCFinal);
+		HashMap<String, EstatisticaVenda> estatistica = Cadastro.estatisticasVenda(dataCInicio, dataCFinal);
 		
-		for(EstatisticaVenda aux : estatistica){
+		for(EstatisticaVenda aux : estatistica.values()){
 			System.out.println(aux.toString());
 		}
 		
@@ -691,7 +720,12 @@ public class Usuario {
 					+ "\n\n 0 - SAIR \n");
 
 			System.out.println("Entre com a opção desejada: ");
-			opcao = Integer.parseInt(leia.nextLine());
+			try {
+				opcao = Integer.parseInt(leia.nextLine());
+			} catch (Exception e) {
+				opcao = 99;
+			}
+			
 
 			switch(opcao){
 			case 0: 
@@ -753,11 +787,32 @@ public class Usuario {
 	public static void lerArquivos(){
 		
 		try {
-			
+
 			ObjectInputStream leitura = new ObjectInputStream(new FileInputStream("Lista.obj"));
 			Cadastro.clientes = (Map<String, Cliente>)leitura.readObject();
 			Cadastro.produtos = (Map<Integer, Produto>)leitura.readObject();
 			Cadastro.vendas = (Map<Integer, Venda>)leitura.readObject();
+			
+			//Acertar Sequencia do Codigo de produtos
+			if(!Cadastro.produtos.isEmpty()){
+				int cod = Cadastro.produtos.get(Cadastro.produtos.size()).getCodigo();
+				
+				while(Cadastro.produtos.containsKey(cod + 1)){
+					cod++;
+				}
+				Produto.setSeq(cod);
+			}
+			leitura.close();
+			
+			//Acertar Sequencia do Codigo de Vendas
+			if(!Cadastro.vendas.isEmpty()){
+				int cod = Cadastro.vendas.get(Cadastro.vendas.size()).getNumVenda();
+				
+				while(Cadastro.vendas.containsKey(cod + 1)){
+					cod++;
+				}
+				Venda.setSeq(cod);
+			}
 			leitura.close();
 			
 		} catch (Exception e) {
@@ -773,14 +828,30 @@ public class Usuario {
 	public static void gravarArquivo(){
 		try {
 			
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Lista.obj"));
-			out.writeObject(Cadastro.clientes);
-			out.writeObject(Cadastro.produtos);
-			out.writeObject(Cadastro.vendas);
-			out.close();
+			ObjectOutputStream gravar = new ObjectOutputStream(new FileOutputStream("Lista.obj"));
+			gravar.writeObject(Cadastro.clientes);
+			gravar.writeObject(Cadastro.produtos);
+			gravar.writeObject(Cadastro.vendas);
+			gravar.close();
 			
 		} catch (Exception e) {
 			System.out.println("Rolou erro : " + e.getMessage());
 		}
+	}
+	
+	//---------------------------------------- HELPERS ---------------------------------------------//
+	
+	public static boolean verificarClienteCPF(String cpf) throws SisVendasException{
+		
+		
+		try {
+			Cliente clienteAux = Cadastro.procurarClienteCpf(cpf);
+			return true;
+		} catch (SisVendasException e) {
+			System.out.println("");
+			return false;
+		}
+		
+		
 	}
 }
