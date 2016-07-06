@@ -1,4 +1,4 @@
 #Universidade FUMEC
-Trabalho Auto Instrucional de LTP3
+Trabalho Auto Instrucional de Linguagem e Tecnica de Programacao III
 
 
