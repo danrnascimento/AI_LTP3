@@ -651,16 +651,8 @@ public class Usuario {
 	//-------------------------------- ESTATISTICAS -----------------------------------------//
 	
 	/**
-<<<<<<< HEAD
 	 * Metodo para exibir do estatisticas do cliente por periodo de vendas
 	 * Metodo para exibir estatisticas por periodo de vendas
-=======
-<<<<<<< HEAD
-	 * Metodo para exibir do estatisticas do cliente por periodo de vendas
-=======
-	 * Metodo para exibir estatisticas por periodo de vendas
->>>>>>> 1b1904231213ce1ecb206d24b963d41109da073e
->>>>>>> b5f32e67f736a55970478ab2b3489153ca225c7c
 	 * @author Daniel Nascimento
 	 */
 	public static void consultarEstatistica(){
@@ -705,11 +697,6 @@ public class Usuario {
 		}
 		
 	}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-	
->>>>>>> b5f32e67f736a55970478ab2b3489153ca225c7c
 	/**
 	 * Metodo para exibir estatisticas do produto por periodo de vendas
 	 * @author Daniel Nascimento
@@ -756,11 +743,6 @@ public class Usuario {
 		}
 		
 	}
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 1b1904231213ce1ecb206d24b963d41109da073e
->>>>>>> b5f32e67f736a55970478ab2b3489153ca225c7c
 
 	//-------------------------------- MENU -----------------------------------------//
 	
@@ -776,16 +758,7 @@ public class Usuario {
 					+ "\n\t 1 - INSERIR UM CLIENTE"
 					+ "\n\t 2 - ALTERAR UM CLIENTE"
 					+ "\n\t 3 - EXCLUIR UM CLIENTE"
-<<<<<<< HEAD
 					+ "\n\t 4 - CONSULTA DADOS DO CLIENTE PELO CPF"
-					+ "\n\t 4 - CONSULTA DADOS DO CLIENTE"
-=======
-<<<<<<< HEAD
-					+ "\n\t 4 - CONSULTA DADOS DO CLIENTE PELO CPF"
-=======
-					+ "\n\t 4 - CONSULTA DADOS DO CLIENTE"
->>>>>>> 1b1904231213ce1ecb206d24b963d41109da073e
->>>>>>> b5f32e67f736a55970478ab2b3489153ca225c7c
 					+ "\n\t 5 - CONSULTA CLIENTES PELO NOME \n"
 					+ "\n\tPRODUTOS \n"
 					+ "\n\t 6 - INSERIR UM PRODUTO"
@@ -795,21 +768,10 @@ public class Usuario {
 					+ "\n\tVENDAS \n"
 					+ "\n\t 10 - INSERIR UMA VENDA"
 					+ "\n\t 11 - EXCLUIR UMA VENDA"
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> b5f32e67f736a55970478ab2b3489153ca225c7c
 					+ "\n\t 12 - CONSULTA VENDAS POR PERIODO \n"
 					+ "\n\tESTATISTICAS \n"
 					+ "\n\t 13 - CONSULTA ESTATISTICA DE CLIENTES POR PERIODO"
 					+ "\n\t 14 - CONSULTA ESTATISTICA DE PRODUTOS POR PERIODO"
-<<<<<<< HEAD
-=======
-=======
-					+ "\n\t 12 - CONSULTA VENDAS POR PERIODO"
-					+ "\n\t 13 - CONSULTA ESTATISTICA DE VENDAS POR PERIODO"
->>>>>>> 1b1904231213ce1ecb206d24b963d41109da073e
->>>>>>> b5f32e67f736a55970478ab2b3489153ca225c7c
 					+ "\n\n\t 0 - SAIR \n");
 
 			System.out.println("Entre com a opção desejada: ");
@@ -861,21 +823,10 @@ public class Usuario {
 				break;
 			case 13:
 				consultarEstatistica();
-<<<<<<< HEAD
 				break;
 			case 14:
 				consultarEstatisticaProduto();
 				break;
-=======
-<<<<<<< HEAD
-				break;
-			case 14:
-				consultarEstatisticaProduto();
-				break;		
-=======
-				break;						
->>>>>>> 1b1904231213ce1ecb206d24b963d41109da073e
->>>>>>> b5f32e67f736a55970478ab2b3489153ca225c7c
 			default:
 				System.out.println("Opção Inválida");
 				break;
