@@ -229,7 +229,15 @@ public class Cadastro {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * criar lista organizando por periodo
+=======
+<<<<<<< HEAD
+	 * criar lista organizando por periodo 
+=======
+	 * criar lista organizando por periodo ( pelo menos foi essa a intencao ) noobOn
+>>>>>>> 1b1904231213ce1ecb206d24b963d41109da073e
+>>>>>>> b5f32e67f736a55970478ab2b3489153ca225c7c
 	 * @author Daniel Nasciment
 	 * @param dataInicio GregorianCalendar - data de inicio do periodo
 	 * @param dataFinal GregorianCalendar - data final do periodo
@@ -267,8 +275,16 @@ public class Cadastro {
 	//-----------------------ESTATISTICAS-----------------------//	
 	
 	/**
+<<<<<<< HEAD
 	 * Metodo para criar uma lista com a estatisticas de clientes por periodo de venda
 	 * Metodo para criar uma lista com a estatisticas do periodo de venda
+=======
+<<<<<<< HEAD
+	 * Metodo para criar uma lista com a estatisticas de clientes por periodo de venda
+=======
+	 * Metodo para criar uma lista com a estatisticas do periodo de venda
+>>>>>>> 1b1904231213ce1ecb206d24b963d41109da073e
+>>>>>>> b5f32e67f736a55970478ab2b3489153ca225c7c
 	 * @author Daniel Nascimento
 	 * @param GregorianCalendar dataInicio - Data de Inicio das estatisticas
 	 * @param GregorianCalendar dataFinal - Data Final das estatisticas
@@ -289,6 +305,13 @@ public class Cadastro {
 			for(Cliente cliente : clientes.values()){
 				if(cliente.getCpf() == venda.getCliente().getCpf()){
 					try {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+						
+>>>>>>> 1b1904231213ce1ecb206d24b963d41109da073e
+>>>>>>> b5f32e67f736a55970478ab2b3489153ca225c7c
 						estatisticasVenda = listaAux.get(venda.getCliente().getNome());
 						
 						valorTotal = estatisticasVenda.getTotalVendas() + venda.getValorFinal();
@@ -316,7 +339,12 @@ public class Cadastro {
 		}
 		return listaAux;
 	}
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+	
+>>>>>>> b5f32e67f736a55970478ab2b3489153ca225c7c
 	/**
 	 * Metodo para criar uma lista com a estatisticas de produtos por periodo de venda
 	 * @author Daniel Nascimento
@@ -369,6 +397,11 @@ public class Cadastro {
 		}
 		return listaAux;
 	}
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 1b1904231213ce1ecb206d24b963d41109da073e
+>>>>>>> b5f32e67f736a55970478ab2b3489153ca225c7c
 }
 	
 
